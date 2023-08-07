@@ -24,7 +24,7 @@
 #include "../../../../Configurations/SDKVariant.xcconfig"
 #include "BaseTarget.xcconfig"
 
-PRODUCT_NAME = ANGLE-shared;
+PRODUCT_NAME = GLESv2;
 EXECUTABLE_PREFIX = lib;
 
 ANGLE_OTHER_LDFLAGS = $(ANGLE_ALLOWABLE_CLIENTS) -framework QuartzCore -framework CoreGraphics -framework Foundation -framework IOSurface -framework Metal $(ANGLE_OTHER_LDFLAGS_$(WK_PLATFORM_NAME)) -Wl;

@@ -1084,7 +1084,7 @@
 		31B1571F236B7FAE00CAA4FD /* SystemInfo_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemInfo_ios.cpp; sourceTree = "<group>"; };
 		31B15721236B803300CAA4FD /* SystemInfo_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfo_internal.h; sourceTree = "<group>"; };
 		31CDFDEE24917F8900486F27 /* ANGLE-dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ANGLE-dynamic.xcconfig"; sourceTree = "<group>"; };
-		31CDFDF42491819E00486F27 /* libANGLE-shared.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libANGLE-shared.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31CDFDF42491819E00486F27 /* libGLESv2.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libGLESv2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A0EBF802980B445002C72BC /* trace_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trace_event.h; sourceTree = "<group>"; };
 		3A0EBF812980B445002C72BC /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		3A0EBF822980B445002C72BC /* sys_byteorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sys_byteorder.h; sourceTree = "<group>"; };
@@ -3157,7 +3157,7 @@
 		FB39D0CC1200EF9B00088E69 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				31CDFDF42491819E00486F27 /* libANGLE-shared.dylib */,
+				31CDFDF42491819E00486F27 /* libGLESv2.dylib */,
 				4458D11C2B635DCC00B64F47 /* metal_translator_fuzzer */,
 				CEA51F5E2A80D9C000DDD7FA /* libEGL.dylib */,
 			);
@@ -3845,7 +3845,7 @@
 			);
 			name = "ANGLE (dynamic)";
 			productName = "ANGLE (dynamic)";
-			productReference = 31CDFDF42491819E00486F27 /* libANGLE-shared.dylib */;
+			productReference = 31CDFDF42491819E00486F27 /* libGLESv2.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		4458D11B2B635DCC00B64F47 /* metal_translator_fuzzer */ = {
