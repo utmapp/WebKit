@@ -507,6 +507,7 @@
 		A3C49C04255DF719005E8DF7 /* SoftLinking.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C3FE1C255DDE7800B73018 /* SoftLinking.h */; };
 		A3C49C06255DF736005E8DF7 /* FunctionsEAGL.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C49BED255DEA52005E8DF7 /* FunctionsEAGL.h */; };
 		A3C49C1B255DF86F005E8DF7 /* ReplaceArrayOfMatrixVarying.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C3FE11255DDD9200B73018 /* ReplaceArrayOfMatrixVarying.h */; };
+		CEA51C272A80CAFF00DDD7FA /* libGLESv2_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA51C262A80CAFF00DDD7FA /* libGLESv2_autogen.cpp */; };
 		DF83E20F2639FC2D000825EF /* compression_utils_portable.cc in Sources */ = {isa = PBXBuildFile; fileRef = A3C49BF0255DEDC5005E8DF7 /* compression_utils_portable.cc */; };
 		DF83E2102639FC74000825EF /* matrix_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D7142282747600B5BA2C /* matrix_utils.cpp */; };
 		DF83E2112639FC74000825EF /* system_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3C49C20255DF96F005E8DF7 /* system_utils.cpp */; };
@@ -1716,6 +1717,7 @@
 		A3D3290A23CFCB4D00375657 /* glslang_lex_autogen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glslang_lex_autogen.cpp; sourceTree = "<group>"; };
 		A3D3291223CFCB7600375657 /* RemoveInactiveInterfaceVariables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoveInactiveInterfaceVariables.cpp; sourceTree = "<group>"; };
 		A3D3291323CFCB7600375657 /* RemoveInactiveInterfaceVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveInactiveInterfaceVariables.h; sourceTree = "<group>"; };
+		CEA51C262A80CAFF00DDD7FA /* libGLESv2_autogen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libGLESv2_autogen.cpp; sourceTree = "<group>"; };
 		FB39D2BF1200F3E600088E69 /* ShaderLang.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ShaderLang.h; sourceTree = "<group>"; };
 		FF194FBB27432C4D006A97A3 /* Operator_autogen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operator_autogen.h; sourceTree = "<group>"; };
 		FF194FBC27432C4D006A97A3 /* ValidateTypeSizeLimitations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateTypeSizeLimitations.h; sourceTree = "<group>"; };
@@ -2433,6 +2435,7 @@
 				A30B581F238DF74F0079FDDC /* entry_points_gles_ext_autogen.h */,
 				5CB300C71DE39E7500D2C405 /* global_state.cpp */,
 				5CB300C81DE39E7500D2C405 /* global_state.h */,
+				CEA51C262A80CAFF00DDD7FA /* libGLESv2_autogen.cpp */,
 				FFD002B22746E5B2002BE3BC /* proc_table_egl.h */,
 				FFD002B12746E5B2002BE3BC /* proc_table_egl_autogen.cpp */,
 				5CB300CC1DE39E7500D2C405 /* resource.h */,
@@ -4086,6 +4089,7 @@
 				3A2C66FF292373D900FEDF46 /* PLSProgramCache.cpp in Sources */,
 				DF83E21D2639FC74000825EF /* PoolAlloc.cpp in Sources */,
 				DF83E2BA2639FD83000825EF /* PoolAlloc.cpp in Sources */,
+				CEA51C272A80CAFF00DDD7FA /* libGLESv2_autogen.cpp in Sources */,
 				DF83E2322639FCB0000825EF /* Preprocessor.cpp in Sources */,
 				DF83E22C2639FCB0000825EF /* preprocessor_lex_autogen.cpp in Sources */,
 				DF83E2332639FCB0000825EF /* preprocessor_tab_autogen.cpp in Sources */,
