@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				CEA51F612A80DA9400DDD7FA /* PBXTargetDependency */,
 				31DB79572491C35400982878 /* PBXTargetDependency */,
 			);
 			name = ANGLE;
@@ -506,6 +507,33 @@
 		A3C49C06255DF736005E8DF7 /* FunctionsEAGL.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C49BED255DEA52005E8DF7 /* FunctionsEAGL.h */; };
 		A3C49C1B255DF86F005E8DF7 /* ReplaceArrayOfMatrixVarying.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C3FE11255DDD9200B73018 /* ReplaceArrayOfMatrixVarying.h */; };
 		CEA51C272A80CAFF00DDD7FA /* libGLESv2_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA51C262A80CAFF00DDD7FA /* libGLESv2_autogen.cpp */; };
+		CEA51F652A80DAEA00DDD7FA /* libEGL_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA51F622A80DAEA00DDD7FA /* libEGL_autogen.cpp */; };
+		CEA51F662A80DAEA00DDD7FA /* egl_loader_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA51F642A80DAEA00DDD7FA /* egl_loader_autogen.cpp */; };
+		CEA51F672A80DED600DDD7FA /* system_utils_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D71F2282747700B5BA2C /* system_utils_posix.cpp */; };
+		CEA51F682A80DED600DDD7FA /* system_utils_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31A331C31EA5ED5F00FD2203 /* system_utils_mac.cpp */; };
+		CEA51F692A80DED600DDD7FA /* system_utils_apple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FFD0029427449D6B002BE3BC /* system_utils_apple.cpp */; };
+		CEA51F6A2A80DED600DDD7FA /* system_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3C49C20255DF96F005E8DF7 /* system_utils.cpp */; };
+		CEA51F6B2A80DF0400DDD7FA /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC7D45D19102620000B8C1F /* debug.cpp */; };
+		CEA51F6C2A80DF5700DDD7FA /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC7D46819102620000B8C1F /* utilities.cpp */; };
+		CEA51F6D2A80DF5700DDD7FA /* uniform_type_info_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 315EBD3E1FCE43BD00AC7A89 /* uniform_type_info_autogen.cpp */; };
+		CEA51F6E2A80DF5700DDD7FA /* string_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCD818B1DBFEA10006066B8 /* string_utils.cpp */; };
+		CEA51F6F2A80DF5700DDD7FA /* event_tracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC7D45F19102620000B8C1F /* event_tracer.cpp */; };
+		CEA51F702A80DF5700DDD7FA /* matrix_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D7142282747600B5BA2C /* matrix_utils.cpp */; };
+		CEA51F712A80DF5700DDD7FA /* aligned_memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D7102282747600B5BA2C /* aligned_memory.cpp */; };
+		CEA51F722A80DF5700DDD7FA /* android_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A303079E230625C6002DA972 /* android_util.cpp */; };
+		CEA51F732A80DF5700DDD7FA /* MemoryBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1DBBE81B0436EC00235552 /* MemoryBuffer.cpp */; };
+		CEA51F752A80DF5700DDD7FA /* PoolAlloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D7152282747600B5BA2C /* PoolAlloc.cpp */; };
+		CEA51F762A80DF5700DDD7FA /* angleutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1DBBE71B0436EC00235552 /* angleutils.cpp */; };
+		CEA51F772A80DF5700DDD7FA /* tls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1DBBED1B0436EC00235552 /* tls.cpp */; };
+		CEA51F782A80DF5700DDD7FA /* platform_helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FFC84C8F2A4D1C910063D8E0 /* platform_helpers.cpp */; };
+		CEA51F792A80DF5700DDD7FA /* mathutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CC7D46119102620000B8C1F /* mathutil.cpp */; };
+		CEA51F7A2A80DF5700DDD7FA /* PackedEGLEnums_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D7112282747600B5BA2C /* PackedEGLEnums_autogen.cpp */; };
+		CEA51F7B2A80DF5700DDD7FA /* WorkerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A2C66EF29236E7D00FEDF46 /* WorkerThread.cpp */; };
+		CEA51F7C2A80DF5700DDD7FA /* Float16ToFloat32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCD81891DBFEA10006066B8 /* Float16ToFloat32.cpp */; };
+		CEA51F7D2A80DF5700DDD7FA /* PackedGLEnums_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D71D2282747700B5BA2C /* PackedGLEnums_autogen.cpp */; };
+		CEA51F7F2A80DF5700DDD7FA /* angle_version_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FFD0029727449E11002BE3BC /* angle_version_info.cpp */; };
+		CEA51F812A80DF5700DDD7FA /* entry_points_enum_autogen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3C3FE06255DDD1C00B73018 /* entry_points_enum_autogen.cpp */; };
+		CEA51F832A80DF5700DDD7FA /* PackedEnums.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D71C2282747700B5BA2C /* PackedEnums.cpp */; };
 		DF83E20F2639FC2D000825EF /* compression_utils_portable.cc in Sources */ = {isa = PBXBuildFile; fileRef = A3C49BF0255DEDC5005E8DF7 /* compression_utils_portable.cc */; };
 		DF83E2102639FC74000825EF /* matrix_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C55D7142282747600B5BA2C /* matrix_utils.cpp */; };
 		DF83E2112639FC74000825EF /* system_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3C49C20255DF96F005E8DF7 /* system_utils.cpp */; };
@@ -863,6 +891,19 @@
 			);
 			script = "exec \"${SRCROOT}/adjust-angle-include-paths-rule\"\n";
 		};
+		CEA51F592A80D9C000DDD7FA /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.h";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(HEADER_OUTPUT_DIR)/$(INPUT_FILE_NAME)",
+			);
+			script = "exec \"${SRCROOT}/adjust-angle-include-paths-rule\"\n";
+		};
 		FF194FFA27443C07006A97A3 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.metal;
@@ -884,6 +925,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 31CDFDF32491819E00486F27;
 			remoteInfo = "ANGLE (dynamic)";
+		};
+		CEA51F602A80DA9400DDD7FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB39D0701200ED9200088E69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA51C302A80D9C000DDD7FA;
+			remoteInfo = "EGL (dynamic)";
 		};
 		FF194FF52744331A006A97A3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1705,6 +1753,11 @@
 		A3D3291223CFCB7600375657 /* RemoveInactiveInterfaceVariables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoveInactiveInterfaceVariables.cpp; sourceTree = "<group>"; };
 		A3D3291323CFCB7600375657 /* RemoveInactiveInterfaceVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveInactiveInterfaceVariables.h; sourceTree = "<group>"; };
 		CEA51C262A80CAFF00DDD7FA /* libGLESv2_autogen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libGLESv2_autogen.cpp; sourceTree = "<group>"; };
+		CEA51F5E2A80D9C000DDD7FA /* libEGL.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libEGL.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA51F5F2A80DA2F00DDD7FA /* EGL-dynamic.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "EGL-dynamic.xcconfig"; sourceTree = "<group>"; };
+		CEA51F622A80DAEA00DDD7FA /* libEGL_autogen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libEGL_autogen.cpp; sourceTree = "<group>"; };
+		CEA51F632A80DAEA00DDD7FA /* egl_loader_autogen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = egl_loader_autogen.h; sourceTree = "<group>"; };
+		CEA51F642A80DAEA00DDD7FA /* egl_loader_autogen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = egl_loader_autogen.cpp; sourceTree = "<group>"; };
 		FB39D2BF1200F3E600088E69 /* ShaderLang.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ShaderLang.h; sourceTree = "<group>"; };
 		FF194FBB27432C4D006A97A3 /* Operator_autogen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operator_autogen.h; sourceTree = "<group>"; };
 		FF194FBC27432C4D006A97A3 /* ValidateTypeSizeLimitations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateTypeSizeLimitations.h; sourceTree = "<group>"; };
@@ -1877,6 +1930,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		31CDFDF22491819E00486F27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA51F542A80D9C000DDD7FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2376,6 +2436,9 @@
 		5CB300B41DE39E5400D2C405 /* libEGL */ = {
 			isa = PBXGroup;
 			children = (
+				CEA51F642A80DAEA00DDD7FA /* egl_loader_autogen.cpp */,
+				CEA51F632A80DAEA00DDD7FA /* egl_loader_autogen.h */,
+				CEA51F622A80DAEA00DDD7FA /* libEGL_autogen.cpp */,
 				5CB300B81DE39E6300D2C405 /* resource.h */,
 			);
 			path = libEGL;
@@ -2801,6 +2864,7 @@
 				FFE0D91526A0B4E80071ADAE /* AngleMetalLib.xcconfig */,
 				5D7C59C61208C68B001C873E /* Base.xcconfig */,
 				5D7C59C71208C68B001C873E /* DebugRelease.xcconfig */,
+				CEA51F5F2A80DA2F00DDD7FA /* EGL-dynamic.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -3051,6 +3115,7 @@
 			isa = PBXGroup;
 			children = (
 				31CDFDF42491819E00486F27 /* libANGLE-shared.dylib */,
+				CEA51F5E2A80D9C000DDD7FA /* libEGL.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3736,6 +3801,23 @@
 			productReference = 31CDFDF42491819E00486F27 /* libANGLE-shared.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		CEA51C302A80D9C000DDD7FA /* EGL (dynamic) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA51F5A2A80D9C000DDD7FA /* Build configuration list for PBXNativeTarget "EGL (dynamic)" */;
+			buildPhases = (
+				CEA51DD82A80D9C000DDD7FA /* Sources */,
+				CEA51F542A80D9C000DDD7FA /* Frameworks */,
+			);
+			buildRules = (
+				CEA51F592A80D9C000DDD7FA /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "EGL (dynamic)";
+			productName = "ANGLE (dynamic)";
+			productReference = CEA51F5E2A80D9C000DDD7FA /* libEGL.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		FFDA50C4269F845100AE11E2 /* ANGLEMetalLib */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FFDA50CB269F845100AE11E2 /* Build configuration list for PBXNativeTarget "ANGLEMetalLib" */;
@@ -3787,6 +3869,7 @@
 			targets = (
 				31DB794F2491C33300982878 /* ANGLE */,
 				31CDFDF32491819E00486F27 /* ANGLE (dynamic) */,
+				CEA51C302A80D9C000DDD7FA /* EGL (dynamic) */,
 				FFDA50C4269F845100AE11E2 /* ANGLEMetalLib */,
 			);
 		};
@@ -4207,6 +4290,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CEA51DD82A80D9C000DDD7FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA51F7B2A80DF5700DDD7FA /* WorkerThread.cpp in Sources */,
+				CEA51F6A2A80DED600DDD7FA /* system_utils.cpp in Sources */,
+				CEA51F732A80DF5700DDD7FA /* MemoryBuffer.cpp in Sources */,
+				CEA51F792A80DF5700DDD7FA /* mathutil.cpp in Sources */,
+				CEA51F772A80DF5700DDD7FA /* tls.cpp in Sources */,
+				CEA51F752A80DF5700DDD7FA /* PoolAlloc.cpp in Sources */,
+				CEA51F782A80DF5700DDD7FA /* platform_helpers.cpp in Sources */,
+				CEA51F652A80DAEA00DDD7FA /* libEGL_autogen.cpp in Sources */,
+				CEA51F7C2A80DF5700DDD7FA /* Float16ToFloat32.cpp in Sources */,
+				CEA51F702A80DF5700DDD7FA /* matrix_utils.cpp in Sources */,
+				CEA51F7D2A80DF5700DDD7FA /* PackedGLEnums_autogen.cpp in Sources */,
+				CEA51F832A80DF5700DDD7FA /* PackedEnums.cpp in Sources */,
+				CEA51F6E2A80DF5700DDD7FA /* string_utils.cpp in Sources */,
+				CEA51F7F2A80DF5700DDD7FA /* angle_version_info.cpp in Sources */,
+				CEA51F6C2A80DF5700DDD7FA /* utilities.cpp in Sources */,
+				CEA51F672A80DED600DDD7FA /* system_utils_posix.cpp in Sources */,
+				CEA51F692A80DED600DDD7FA /* system_utils_apple.cpp in Sources */,
+				CEA51F6D2A80DF5700DDD7FA /* uniform_type_info_autogen.cpp in Sources */,
+				CEA51F682A80DED600DDD7FA /* system_utils_mac.cpp in Sources */,
+				CEA51F6F2A80DF5700DDD7FA /* event_tracer.cpp in Sources */,
+				CEA51F662A80DAEA00DDD7FA /* egl_loader_autogen.cpp in Sources */,
+				CEA51F712A80DF5700DDD7FA /* aligned_memory.cpp in Sources */,
+				CEA51F6B2A80DF0400DDD7FA /* debug.cpp in Sources */,
+				CEA51F722A80DF5700DDD7FA /* android_util.cpp in Sources */,
+				CEA51F762A80DF5700DDD7FA /* angleutils.cpp in Sources */,
+				CEA51F812A80DF5700DDD7FA /* entry_points_enum_autogen.cpp in Sources */,
+				CEA51F7A2A80DF5700DDD7FA /* PackedEGLEnums_autogen.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FFDA50C3269F845100AE11E2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4222,6 +4339,11 @@
 			isa = PBXTargetDependency;
 			target = 31CDFDF32491819E00486F27 /* ANGLE (dynamic) */;
 			targetProxy = 31DB79562491C35400982878 /* PBXContainerItemProxy */;
+		};
+		CEA51F612A80DA9400DDD7FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEA51C302A80D9C000DDD7FA /* EGL (dynamic) */;
+			targetProxy = CEA51F602A80DA9400DDD7FA /* PBXContainerItemProxy */;
 		};
 		FF194FF62744331A006A97A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4276,6 +4398,27 @@
 		5D7C59DB1208C6C3001C873E /* Production */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D7C59C61208C68B001C873E /* Base.xcconfig */;
+			buildSettings = {
+			};
+			name = Production;
+		};
+		CEA51F5B2A80D9C000DDD7FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEA51F5F2A80DA2F00DDD7FA /* EGL-dynamic.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		CEA51F5C2A80D9C000DDD7FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEA51F5F2A80DA2F00DDD7FA /* EGL-dynamic.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		CEA51F5D2A80D9C000DDD7FA /* Production */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEA51F5F2A80DA2F00DDD7FA /* EGL-dynamic.xcconfig */;
 			buildSettings = {
 			};
 			name = Production;
@@ -4336,6 +4479,16 @@
 				31DB79502491C33300982878 /* Debug */,
 				31DB79512491C33300982878 /* Release */,
 				31DB79522491C33300982878 /* Production */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Production;
+		};
+		CEA51F5A2A80D9C000DDD7FA /* Build configuration list for PBXNativeTarget "EGL (dynamic)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA51F5B2A80D9C000DDD7FA /* Debug */,
+				CEA51F5C2A80D9C000DDD7FA /* Release */,
+				CEA51F5D2A80D9C000DDD7FA /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Production;
