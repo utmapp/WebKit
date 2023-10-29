@@ -151,6 +151,8 @@
 #            define ANGLE_PLATFORM_WATCHOS 1
 #        elif TARGET_OS_TV
 #            define ANGLE_PLATFORM_APPLETV 1
+#        elif TARGET_OS_VISION
+#            define ANGLE_PLATFORM_VISIONOS 1
 #        endif
 #    endif
 #    // Identify Metal API >= what shipped on macOS Catalina.
