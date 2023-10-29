@@ -399,7 +399,7 @@ Texture::Texture(ContextMtl *context,
 
         if (memoryLess)
         {
-#if (TARGET_OS_IOS || TARGET_OS_TV) && !TARGET_OS_MACCATALYST
+#if (TARGET_OS_IOS || TARGET_OS_VISION || TARGET_OS_TV) && !TARGET_OS_MACCATALYST
             desc.resourceOptions = MTLResourceStorageModeMemoryless;
 #else
             desc.resourceOptions = MTLResourceStorageModePrivate;
@@ -461,7 +461,7 @@ Texture::Texture(ContextMtl *context,
             desc.usage |= MTLTextureUsageRenderTarget;
         }
 
-#if (TARGET_OS_IOS || TARGET_OS_TV || TARGET_OS_WATCH) && !TARGET_OS_MACCATALYST
+#if (TARGET_OS_IOS || TARGET_OS_VISION || TARGET_OS_TV || TARGET_OS_WATCH) && !TARGET_OS_MACCATALYST
         desc.resourceOptions = MTLResourceStorageModeShared;
 #else
         desc.resourceOptions = MTLResourceStorageModeManaged;
