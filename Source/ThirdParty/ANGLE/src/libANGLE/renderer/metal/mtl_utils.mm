@@ -1503,7 +1503,7 @@ bool SupportsAppleGPUFamily(id<MTLDevice> device, uint8_t appleFamily)
             case 5:
                 family = MTLGPUFamilyApple5;
                 break;
-#    if TARGET_OS_IOS || (TARGET_OS_OSX && __MAC_OS_X_VERSION_MAX_ALLOWED >= 110000)
+#    if TARGET_OS_IOS || TARGET_OS_VISION || (TARGET_OS_OSX && __MAC_OS_X_VERSION_MAX_ALLOWED >= 110000)
             case 6:
                 family = MTLGPUFamilyApple6;
                 break;
@@ -1515,7 +1515,7 @@ bool SupportsAppleGPUFamily(id<MTLDevice> device, uint8_t appleFamily)
     }   // Metal 2.2
 #endif  // __IPHONE_OS_VERSION_MAX_ALLOWED
 
-#if (!TARGET_OS_IOS && !TARGET_OS_TV) || TARGET_OS_MACCATALYST
+#if (!TARGET_OS_IOS && !TARGET_OS_VISION && !TARGET_OS_TV) || TARGET_OS_MACCATALYST
     return false;
 #else
     // If device doesn't support [MTLDevice supportsFamily:], then use
@@ -1523,7 +1523,7 @@ bool SupportsAppleGPUFamily(id<MTLDevice> device, uint8_t appleFamily)
     MTLFeatureSet featureSet;
     switch (appleFamily)
     {
-#    if TARGET_OS_IOS
+#    if TARGET_OS_IOS || TARGET_OS_VISION
         case 1:
             featureSet = MTLFeatureSet_iOS_GPUFamily1_v1;
             break;
@@ -1546,7 +1546,7 @@ bool SupportsAppleGPUFamily(id<MTLDevice> device, uint8_t appleFamily)
         case 2:
             featureSet = MTLFeatureSet_tvOS_GPUFamily1_v1;
             break;
-#    endif  // TARGET_OS_IOS
+#    endif  // TARGET_OS_IOS || TARGET_OS_VISION
         default:
             return false;
     }
