@@ -218,14 +218,7 @@ void *OpenSystemLibraryAndGetError(const char *libraryName,
                                    SearchType searchType,
                                    std::string *errorOut)
 {
-#if defined(ANGLE_PLATFORM_MACOS)
-    std::string frameworkPath = std::string(libraryName) + ".framework/Versions/Current/" + std::string(libraryName);
-    return OpenSystemLibraryWithExtensionAndGetError(frameworkPath.c_str(), SearchType::SystemDir, errorOut);
-#elif defined(ANGLE_PLATFORM_IOS_FAMILY)
-    std::string frameworkPath = std::string(libraryName) + ".framework/" + std::string(libraryName);
-    return OpenSystemLibraryWithExtensionAndGetError(frameworkPath.c_str(), SearchType::SystemDir, errorOut);
-#else
-    std::string libraryWithExtension = std::string(libraryName);
+    std::string libraryWithExtension = std::string("lib") + std::string(libraryName);
     std::string dotExtension         = std::string(".") + GetSharedLibraryExtension();
     // Only append the extension if it's not already present. This enables building libEGL.so.1
     // and libGLESv2.so.2 by setting these as ANGLE_EGL_LIBRARY_NAME and ANGLE_GLESV2_LIBRARY_NAME.
@@ -241,7 +234,6 @@ void *OpenSystemLibraryAndGetError(const char *libraryName,
 #endif
     return OpenSystemLibraryWithExtensionAndGetError(libraryWithExtension.c_str(), searchType,
                                                      errorOut);
-#endif
 }
 
 std::string StripFilenameFromPath(const std::string &path)
