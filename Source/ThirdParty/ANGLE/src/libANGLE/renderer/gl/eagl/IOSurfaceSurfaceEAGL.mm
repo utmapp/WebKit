@@ -125,7 +125,7 @@ IOSurfaceSurfaceEAGL::IOSurfaceSurfaceEAGL(const egl::SurfaceState &state,
 
 IOSurfaceSurfaceEAGL::~IOSurfaceSurfaceEAGL()
 {
-    if (!mFramebufferID)
+    if (mFramebufferID != 0)
     {
         mStateManager->deleteFramebuffer(mFramebufferID);
         mFramebufferID = 0;
