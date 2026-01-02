@@ -1811,8 +1811,9 @@ void ContextMtl::endBlitAndComputeEncoding()
     if (mComputeEncoder.valid())
     {
         mComputeEncoder.endEncoding();
-        mProvokingVertexHelper.releaseInFlightBuffers(this);
     }
+
+    mProvokingVertexHelper.releaseInFlightBuffers(this);
 }
 
 void ContextMtl::endEncoding(bool forceSaveRenderPassContent)
