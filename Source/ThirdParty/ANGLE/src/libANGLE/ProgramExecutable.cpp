@@ -150,6 +150,10 @@ bool IsOutputSecondaryForLink(const ProgramAliasedBindings &fragmentOutputIndexe
         ASSERT(outputVariable.pod.index == 0 || outputVariable.pod.index == 1);
         return (outputVariable.pod.index == 1);
     }
+    if (outputVariable.pod.location != -1)
+    {
+        return false;
+    }
     int apiIndex = fragmentOutputIndexes.getBinding(outputVariable);
     if (apiIndex != -1)
     {

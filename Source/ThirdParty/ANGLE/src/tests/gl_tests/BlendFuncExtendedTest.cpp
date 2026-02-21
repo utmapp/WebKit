@@ -1249,6 +1249,76 @@ void main() {
     ASSERT_GL_NO_ERROR();
 }
 
+TEST_P(EXTBlendFuncExtendedTestES3, ExplicitLocationOverridesAPIIndex)
+{
+    ANGLE_SKIP_TEST_IF(!IsGLExtensionEnabled("GL_EXT_blend_func_extended"));
+
+    GLint maxDualSourceDrawBuffers = 0;
+    glGetIntegerv(GL_MAX_DUAL_SOURCE_DRAW_BUFFERS_EXT, &maxDualSourceDrawBuffers);
+
+    GLint maxDrawBuffers = 0;
+    glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
+
+    // If maxDualSourceDrawBuffers >= maxDrawBuffers, we can't test the failure condition easily.
+    if (maxDualSourceDrawBuffers >= maxDrawBuffers)
+    {
+        return;
+    }
+
+    // Use location = maxDualSourceDrawBuffers.
+    // If bug exists -> maxLocation = maxDualSourceDrawBuffers.
+    // Location maxDualSourceDrawBuffers is out of range [0, maxDualSourceDrawBuffers).
+    // So link should fail if bug exists.
+    GLint testLocation = maxDualSourceDrawBuffers;
+
+    std::stringstream fs;
+    fs << "#version 300 es\n"
+       << "#extension GL_EXT_blend_func_extended : require\n"
+       << "precision mediump float;\n"
+       << "layout(location = " << testLocation << ") out vec4 color;\n"
+       << "void main() { color = vec4(0.0, 1.0, 0.0, 1.0); }\n";
+
+    GLuint program = glCreateProgram();
+    GLuint vs = CompileShader(GL_VERTEX_SHADER, essl3_shaders::vs::Simple());
+    GLuint fsObj = CompileShader(GL_FRAGMENT_SHADER, fs.str().c_str());
+
+    if (vs == 0 || fsObj == 0)
+    {
+        glDeleteProgram(program);
+        glDeleteShader(vs);
+        glDeleteShader(fsObj);
+        return;
+    }
+
+    glAttachShader(program, vs);
+    glAttachShader(program, fsObj);
+
+    // Bind 'color' to index 1 via API.
+    // This should be IGNORED because of layout(location=...).
+    // If NOT ignored, it becomes secondary output -> maxLocation = maxDualSource.
+    glBindFragDataLocationIndexedEXT(program, 0, 1, "color");
+
+    glLinkProgram(program);
+
+    GLint linked;
+    glGetProgramiv(program, GL_LINK_STATUS, &linked);
+
+    if (!linked)
+    {
+        GLint infoLogLength;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
+        std::vector<GLchar> infoLog(infoLogLength);
+        glGetProgramInfoLog(program, infoLogLength, NULL, infoLog.data());
+        FAIL() << "Program failed to link: " << infoLog.data();
+    }
+
+    EXPECT_GL_TRUE(linked);
+
+    glDeleteProgram(program);
+    glDeleteShader(vs);
+    glDeleteShader(fsObj);
+}
+
 ANGLE_INSTANTIATE_TEST_ES2(EXTBlendFuncExtendedTest);
 
 GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(EXTBlendFuncExtendedTestES3);
