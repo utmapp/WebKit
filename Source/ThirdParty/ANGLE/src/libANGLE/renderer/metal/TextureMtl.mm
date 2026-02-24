@@ -701,6 +701,7 @@ void TextureMtl::releaseTexture(bool releaseImages, bool releaseTextureObjectsOn
 
     mNativeTexture                    = nullptr;
     mNativeSwizzleStencilSamplingView = nullptr;
+    mIsEGLImageTarget                 = false;
 
     // Clear render target cache for each texture's image. We don't erase them because they
     // might still be referenced by a framebuffer.
@@ -875,6 +876,14 @@ angle::Result TextureMtl::onBaseMaxLevelsChanged(const gl::Context *context)
     if (!mNativeTexture || (mCurrentBaseLevel == mState.getEffectiveBaseLevel() &&
                             mCurrentMaxLevel == mState.getEffectiveMaxLevel()))
     {
+        return angle::Result::Continue;
+    }
+
+    if (mIsEGLImageTarget || mBoundSurface)
+    {
+        // Immutable or externally owned storage cannot be resized or redefined.
+        mCurrentBaseLevel = mState.getEffectiveBaseLevel();
+        mCurrentMaxLevel  = mState.getEffectiveMaxLevel();
         return angle::Result::Continue;
     }
 
@@ -1306,6 +1315,10 @@ angle::Result TextureMtl::setEGLImageTarget(const gl::Context *context,
 
     mSlices = mNativeTexture->cubeFacesOrArrayLength();
 
+    mCurrentBaseLevel = mState.getEffectiveBaseLevel();
+    mCurrentMaxLevel  = mState.getEffectiveMaxLevel();
+    mIsEGLImageTarget = true;
+
     ANGLE_TRY(ensureSamplerStateCreated(context));
 
     // Tell context to rebind textures
@@ -1467,6 +1480,10 @@ angle::Result TextureMtl::bindTexImage(const gl::Context *context, egl::Surface 
     auto pBuffer   = GetImplAs<OffscreenSurfaceMtl>(surface);
     mNativeTexture = pBuffer->getColorTexture();
     mFormat        = pBuffer->getColorFormat();
+
+    mCurrentBaseLevel = mState.getEffectiveBaseLevel();
+    mCurrentMaxLevel  = mState.getEffectiveMaxLevel();
+
     ANGLE_TRY(ensureSamplerStateCreated(context));
 
     // Tell context to rebind textures

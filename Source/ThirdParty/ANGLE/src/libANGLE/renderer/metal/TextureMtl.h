@@ -360,6 +360,8 @@ class TextureMtl : public TextureImpl
 
     GLuint mCurrentBaseLevel = 0;
     GLuint mCurrentMaxLevel  = 1000;
+
+    bool mIsEGLImageTarget = false;
 };
 
 }  // namespace rx
