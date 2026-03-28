@@ -974,6 +974,13 @@ static int ES3_and_3_1_reserved_ES3_1_extension_ES3_2_keyword_2(TParseContext *c
                                                                 TExtension extension2,
                                                                 int token1,
                                                                 int token2);
+static int ES3_and_3_1_reserved_ES3_or_ES3_1_extension_ES3_2_keyword_3(TParseContext *context,
+                                                                        TExtension extension1,
+                                                                        TExtension extension2,
+                                                                        TExtension extension3,
+                                                                        int token1,
+                                                                        int token2,
+                                                                        int token3);
 static int WEBGL_video_texture_extension(TParseContext *context, int token);
 static int uint_constant(TParseContext *context);
 static int int_constant(TParseContext *context);
@@ -1870,9 +1877,9 @@ YY_DECL
                 case 89:
                     YY_RULE_SETUP
                     {
-                        return ES3_and_3_1_reserved_ES3_1_extension_ES3_2_keyword_2(
-                            context, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer,
-                            SAMPLERBUFFER, SAMPLERBUFFER);
+                        return ES3_and_3_1_reserved_ES3_or_ES3_1_extension_ES3_2_keyword_3(
+                            context, TExtension::ANGLE_texture_buffer, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer,
+                            SAMPLERBUFFER, SAMPLERBUFFER, SAMPLERBUFFER);
                     }
                     YY_BREAK
                 case 90:
@@ -1896,9 +1903,9 @@ YY_DECL
                 case 92:
                     YY_RULE_SETUP
                     {
-                        return ES3_and_3_1_reserved_ES3_1_extension_ES3_2_keyword_2(
-                            context, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer,
-                            ISAMPLERBUFFER, ISAMPLERBUFFER);
+                        return ES3_and_3_1_reserved_ES3_or_ES3_1_extension_ES3_2_keyword_3(
+                            context, TExtension::ANGLE_texture_buffer, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer,
+                            ISAMPLERBUFFER, ISAMPLERBUFFER, ISAMPLERBUFFER);
                     }
                     YY_BREAK
                 case 93:
@@ -1913,9 +1920,9 @@ YY_DECL
                 case 94:
                     YY_RULE_SETUP
                     {
-                        return ES3_and_3_1_reserved_ES3_1_extension_ES3_2_keyword_2(
-                            context, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer,
-                            USAMPLERBUFFER, USAMPLERBUFFER);
+                        return ES3_and_3_1_reserved_ES3_or_ES3_1_extension_ES3_2_keyword_3(
+                            context, TExtension::ANGLE_texture_buffer, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer,
+                            USAMPLERBUFFER, USAMPLERBUFFER, USAMPLERBUFFER);
                     }
                     YY_BREAK
                 case 95:
@@ -4186,6 +4193,42 @@ static int ES3_and_3_1_reserved_ES3_1_extension_ES3_2_keyword_2(TParseContext *c
     else if (is_extension_enabled_or_is_core(context, 310, extension2, 320))
     {
         return token2;
+    }
+
+    // A reserved word in GLSL ES 3.00 and 3.10
+    if (context->getShaderVersion() >= 300)
+    {
+        return reserved_word(yyscanner);
+    }
+
+    yylval->lex.string = AllocatePoolCharArray(yytext, yyleng);
+    return check_type(yyscanner);
+}
+
+static int ES3_and_3_1_reserved_ES3_or_ES3_1_extension_ES3_2_keyword_3(TParseContext *context,
+                                                                        TExtension extension1,
+                                                                        TExtension extension2,
+                                                                        TExtension extension3,
+                                                                        int token1,
+                                                                        int token2,
+                                                                        int token3)
+{
+    struct yyguts_t *yyg = (struct yyguts_t *)context->getScanner();
+    yyscan_t yyscanner   = (yyscan_t)context->getScanner();
+
+    // extension1 is available from ESSL 3.00 (e.g. ANGLE_texture_buffer)
+    if (is_extension_enabled_or_is_core(context, 300, extension1, 320))
+    {
+        return token1;
+    }
+    // extension2 and extension3 are available from ESSL 3.10
+    if (is_extension_enabled_or_is_core(context, 310, extension2, 320))
+    {
+        return token2;
+    }
+    else if (is_extension_enabled_or_is_core(context, 310, extension3, 320))
+    {
+        return token3;
     }
 
     // A reserved word in GLSL ES 3.00 and 3.10

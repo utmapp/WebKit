@@ -724,8 +724,124 @@ void TextureMtl::releaseTexture(bool releaseImages, bool releaseTextureObjectsOn
     }
 }
 
+angle::Result TextureMtl::ensureBufferTextureCreated(const gl::Context *context)
+{
+    ContextMtl *contextMtl = mtl::GetImpl(context);
+
+    const gl::OffsetBindingPointer<gl::Buffer> &bufferBinding = mState.getBuffer();
+    gl::Buffer *buffer = bufferBinding.get();
+    if (!buffer)
+    {
+        mNativeTexture = nullptr;
+        mBufferTextureExpandedBuffer = nullptr;
+        return angle::Result::Continue;
+    }
+
+    BufferMtl *bufferMtl    = mtl::GetImpl(buffer);
+    mtl::BufferRef mtlBuffer = bufferMtl->getCurrentBuffer();
+    if (!mtlBuffer)
+    {
+        mNativeTexture = nullptr;
+        mBufferTextureExpandedBuffer = nullptr;
+        return angle::Result::Continue;
+    }
+
+    // Determine format and texel count
+    const gl::ImageDesc &desc            = mState.getBaseLevelDesc();
+    const gl::InternalFormat &formatInfo = *desc.format.info;
+    angle::FormatID angleFormatId =
+        angle::Format::InternalFormatToID(formatInfo.sizedInternalFormat);
+    mFormat = contextMtl->getPixelFormat(angleFormatId);
+
+    GLintptr offset        = bufferBinding.getOffset();
+    GLsizeiptr size        = gl::GetBoundBufferAvailableSize(bufferBinding);
+    uint32_t srcPixelBytes = formatInfo.pixelBytes;
+    uint32_t dstPixelBytes = mFormat.actualAngleFormat().pixelBytes;
+    NSUInteger texelCount  = static_cast<NSUInteger>(size) / srcPixelBytes;
+
+    if (texelCount == 0)
+    {
+        mNativeTexture = nullptr;
+        mBufferTextureExpandedBuffer = nullptr;
+        return angle::Result::Continue;
+    }
+
+    id<MTLBuffer> textureBacking = nil;
+    NSUInteger textureOffset     = 0;
+
+    if (srcPixelBytes != dstPixelBytes)
+    {
+        // The GL format has a different pixel size than the Metal format
+        // (e.g. RGB32F 12 bytes -> RGBA32F 16 bytes). We must expand the
+        // data into a temporary buffer so the texture view has correct
+        // per-texel stride.
+        NSUInteger expandedSize = texelCount * dstPixelBytes;
+        ANGLE_TRY(mtl::Buffer::MakeBuffer(contextMtl, expandedSize, nullptr,
+                                           &mBufferTextureExpandedBuffer));
+
+        const uint8_t *src =
+            static_cast<const uint8_t *>(mtlBuffer->get().contents) + offset;
+        uint8_t *dst =
+            static_cast<uint8_t *>(mBufferTextureExpandedBuffer->get().contents);
+
+        for (NSUInteger i = 0; i < texelCount; i++)
+        {
+            memcpy(dst + i * dstPixelBytes, src + i * srcPixelBytes, srcPixelBytes);
+            // Zero-fill the extra channels (e.g. alpha = 0)
+            memset(dst + i * dstPixelBytes + srcPixelBytes, 0,
+                   dstPixelBytes - srcPixelBytes);
+        }
+
+        textureBacking = mBufferTextureExpandedBuffer->get();
+        textureOffset  = 0;
+    }
+    else
+    {
+        mBufferTextureExpandedBuffer = nullptr;
+        textureBacking               = mtlBuffer->get();
+        textureOffset                = static_cast<NSUInteger>(offset);
+    }
+
+    NSUInteger bytesPerRow = texelCount * dstPixelBytes;
+
+    // Create texture view of the buffer
+    MTLTextureDescriptor *texDesc = [MTLTextureDescriptor
+        textureBufferDescriptorWithPixelFormat:mFormat.metalFormat
+                                        width:texelCount
+                              resourceOptions:textureBacking.resourceOptions
+                                        usage:MTLTextureUsageShaderRead | MTLTextureUsageShaderWrite |
+                                              MTLTextureUsagePixelFormatView];
+
+    id<MTLTexture> metalTex = [textureBacking newTextureWithDescriptor:texDesc
+                                                                offset:textureOffset
+                                                           bytesPerRow:bytesPerRow];
+
+    if (!metalTex)
+    {
+        ANGLE_MTL_HANDLE_ERROR(contextMtl, "Failed to create buffer texture", GL_OUT_OF_MEMORY);
+        return angle::Result::Stop;
+    }
+
+    mNativeTexture = mtl::Texture::MakeFromMetal(metalTex);
+
+    // Mark the underlying buffer as a GPU read dependency so that
+    // BufferMtl::setSubData knows not to modify it in-place while
+    // a render pass that uses this texture view is still pending.
+    contextMtl->setCommandBufferReadDependency(mtlBuffer);
+
+    return angle::Result::Continue;
+}
+
 angle::Result TextureMtl::ensureTextureCreated(const gl::Context *context)
 {
+    // Buffer textures are created from a buffer object, not via the normal path.
+    // Always recreate because the underlying buffer may have changed
+    // (e.g. bufferSubData or mapBuffer can trigger triple-buffering).
+    if (mState.getType() == gl::TextureType::Buffer)
+    {
+        return ensureBufferTextureCreated(context);
+    }
+
     if (mNativeTexture)
     {
         return angle::Result::Continue;
@@ -786,6 +902,9 @@ angle::Result TextureMtl::createNativeTexture(const gl::Context *context,
                 contextMtl, mFormat, size.width, size.height, mips, mSlices,
                 /** renderTargetOnly */ false, allowFormatView, &mNativeTexture));
             break;
+        case gl::TextureType::Buffer:
+            // Buffer textures are created in ensureBufferTextureCreated from a buffer object
+            return angle::Result::Continue;
         default:
             UNREACHABLE();
     }
@@ -1241,6 +1360,14 @@ angle::Result TextureMtl::copyCompressedTexture(const gl::Context *context,
     return angle::Result::Stop;
 }
 
+angle::Result TextureMtl::setBuffer(const gl::Context *context, GLenum internalFormat)
+{
+    // Release any existing native texture - it will be recreated lazily
+    releaseTexture(true);
+    mMetalSamplerState = nil;
+    return angle::Result::Continue;
+}
+
 angle::Result TextureMtl::setStorage(const gl::Context *context,
                                      gl::TextureType type,
                                      size_t mipmaps,
@@ -1542,15 +1669,82 @@ angle::Result TextureMtl::syncState(const gl::Context *context,
                 mNativeSwizzleStencilSamplingView = nullptr;
             }
             break;
+            case gl::Texture::DIRTY_BIT_IMPLEMENTATION:
+                // Buffer texture backing may have changed - force recreation
+                if (mState.getType() == gl::TextureType::Buffer)
+                {
+                    mNativeTexture = nullptr;
+                }
+                break;
             default:
                 break;
         }
     }
 
     ANGLE_TRY(ensureTextureCreated(context));
-    ANGLE_TRY(ensureSamplerStateCreated(context));
+    if (mState.getType() != gl::TextureType::Buffer)
+    {
+        ANGLE_TRY(ensureSamplerStateCreated(context));
+    }
 
     return angle::Result::Continue;
+}
+
+// Return the float-compatible Metal pixel format for an integer format, or
+// MTLPixelFormatInvalid if no reinterpretation is needed/possible.
+static MTLPixelFormat getFloatReinterpretFormat(MTLPixelFormat fmt)
+{
+    switch (fmt)
+    {
+        case MTLPixelFormatR8Uint:
+        case MTLPixelFormatR8Sint:
+            return MTLPixelFormatR8Unorm;
+        case MTLPixelFormatRG8Uint:
+        case MTLPixelFormatRG8Sint:
+            return MTLPixelFormatRG8Unorm;
+        case MTLPixelFormatRGBA8Uint:
+        case MTLPixelFormatRGBA8Sint:
+            return MTLPixelFormatRGBA8Unorm;
+        case MTLPixelFormatR16Uint:
+        case MTLPixelFormatR16Sint:
+            return MTLPixelFormatR16Unorm;
+        case MTLPixelFormatRG16Uint:
+        case MTLPixelFormatRG16Sint:
+            return MTLPixelFormatRG16Unorm;
+        case MTLPixelFormatRGBA16Uint:
+        case MTLPixelFormatRGBA16Sint:
+            return MTLPixelFormatRGBA16Unorm;
+        case MTLPixelFormatR32Uint:
+        case MTLPixelFormatR32Sint:
+            return MTLPixelFormatR32Float;
+        case MTLPixelFormatRG32Uint:
+        case MTLPixelFormatRG32Sint:
+            return MTLPixelFormatRG32Float;
+        case MTLPixelFormatRGBA32Uint:
+        case MTLPixelFormatRGBA32Sint:
+            return MTLPixelFormatRGBA32Float;
+        default:
+            return MTLPixelFormatInvalid;
+    }
+}
+
+// Return the texture ref to bind, creating a format view if the texture's
+// pixel format doesn't match the shader's sampler format type.
+static mtl::TextureRef getFormatCompatibleView(const mtl::TextureRef &texture,
+                                                gl::SamplerFormat samplerFormat)
+{
+    if (samplerFormat != gl::SamplerFormat::Float)
+    {
+        return texture;
+    }
+    MTLPixelFormat texFmt  = texture->pixelFormat();
+    MTLPixelFormat floatFmt = getFloatReinterpretFormat(texFmt);
+    if (floatFmt == MTLPixelFormatInvalid || floatFmt == texFmt)
+    {
+        return texture;
+    }
+    // Create a view with the float-compatible format
+    return texture->createViewWithCompatibleFormat(floatFmt);
 }
 
 angle::Result TextureMtl::bindToShader(const gl::Context *context,
@@ -1558,8 +1752,30 @@ angle::Result TextureMtl::bindToShader(const gl::Context *context,
                                        gl::ShaderType shaderType,
                                        gl::Sampler *sampler,
                                        int textureSlotIndex,
-                                       int samplerSlotIndex)
+                                       int samplerSlotIndex,
+                                       gl::SamplerFormat samplerFormat)
 {
+    // Buffer textures must always recreate their view because the
+    // underlying Metal buffer may have changed (e.g. bufferSubData or
+    // mapBuffer can trigger triple-buffering in BufferMtl).
+    if (!mNativeTexture || mState.getType() == gl::TextureType::Buffer)
+    {
+        ANGLE_TRY(ensureTextureCreated(context));
+    }
+
+    if (!mNativeTexture)
+    {
+        return angle::Result::Continue;
+    }
+
+    // Buffer textures: bind texture only, no sampler needed
+    if (mState.getType() == gl::TextureType::Buffer)
+    {
+        mtl::TextureRef viewTex = getFormatCompatibleView(mNativeTexture, samplerFormat);
+        cmdEncoder->setTexture(shaderType, viewTex, textureSlotIndex);
+        return angle::Result::Continue;
+    }
+
     ASSERT(mNativeTexture);
 
     float minLodClamp;
@@ -1650,6 +1866,11 @@ angle::Result TextureMtl::bindToShaderImage(const gl::Context *context,
                                             int layer,
                                             GLenum format)
 {
+    if (!mNativeTexture || mState.getType() == gl::TextureType::Buffer)
+    {
+        ANGLE_TRY(ensureTextureCreated(context));
+    }
+
     ASSERT(mNativeTexture);
     ASSERT(0 <= level && static_cast<uint32_t>(level) < mNativeTexture->mipmapLevels());
 

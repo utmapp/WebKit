@@ -222,6 +222,7 @@ void InitBuiltInResources(ShBuiltInResources *resources)
     resources->EXT_tessellation_shader                        = 0;
     resources->OES_texture_buffer                             = 0;
     resources->EXT_texture_buffer                             = 0;
+    resources->ANGLE_texture_buffer                           = 0;
     resources->OES_sample_variables                           = 0;
     resources->EXT_clip_cull_distance                         = 0;
     resources->ANGLE_clip_cull_distance                       = 0;

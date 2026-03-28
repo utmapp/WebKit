@@ -1161,54 +1161,30 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x00000476u, ImmutableString("textureGradOffset(00p10B00B00B00D").mangledNameHash());
     ASSERT_EQ(0x00000477u, ImmutableString("textureGradOffset(00u10B00B00B00D").mangledNameHash());
     ASSERT_EQ(0x00000478u, ImmutableString("textureGradOffset(00i20B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000479u,
-              ImmutableString("textureProjGradOffset(00I20B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000047au,
-              ImmutableString("textureProjGradOffset(00R20B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000047bu,
-              ImmutableString("textureProjGradOffset(00X20B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000047cu,
-              ImmutableString("textureProjGradOffset(00I30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000047du,
-              ImmutableString("textureProjGradOffset(00R30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000047eu,
-              ImmutableString("textureProjGradOffset(00X30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000047fu,
-              ImmutableString("textureProjGradOffset(00J30B20B20B20D").mangledNameHash());
-    ASSERT_EQ(0x00000480u,
-              ImmutableString("textureProjGradOffset(00S30B20B20B20D").mangledNameHash());
-    ASSERT_EQ(0x00000481u,
-              ImmutableString("textureProjGradOffset(00Y30B20B20B20D").mangledNameHash());
-    ASSERT_EQ(0x00000482u,
-              ImmutableString("textureProjGradOffset(00d30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x00000483u,
-              ImmutableString("textureProjGradOffset(00g10B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000484u,
-              ImmutableString("textureProjGradOffset(00o10B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000485u,
-              ImmutableString("textureProjGradOffset(00t10B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000486u,
-              ImmutableString("textureProjGradOffset(00g30B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000487u,
-              ImmutableString("textureProjGradOffset(00o30B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000488u,
-              ImmutableString("textureProjGradOffset(00t30B00B00B00D").mangledNameHash());
-    ASSERT_EQ(0x00000489u,
-              ImmutableString("textureProjGradOffset(00O20B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000048au,
-              ImmutableString("textureProjGradOffset(00q20B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000048bu,
-              ImmutableString("textureProjGradOffset(00v20B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000048cu,
-              ImmutableString("textureProjGradOffset(00O30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000048du,
-              ImmutableString("textureProjGradOffset(00q30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000048eu,
-              ImmutableString("textureProjGradOffset(00v30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x0000048fu,
-              ImmutableString("textureProjGradOffset(00n30B10B10B10D").mangledNameHash());
-    ASSERT_EQ(0x00000490u,
-              ImmutableString("textureProjGradOffset(00m30B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000479u, ImmutableString("textureProjGradOffset(00I20B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000047au, ImmutableString("textureProjGradOffset(00R20B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000047bu, ImmutableString("textureProjGradOffset(00X20B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000047cu, ImmutableString("textureProjGradOffset(00I30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000047du, ImmutableString("textureProjGradOffset(00R30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000047eu, ImmutableString("textureProjGradOffset(00X30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000047fu, ImmutableString("textureProjGradOffset(00J30B20B20B20D").mangledNameHash());
+    ASSERT_EQ(0x00000480u, ImmutableString("textureProjGradOffset(00S30B20B20B20D").mangledNameHash());
+    ASSERT_EQ(0x00000481u, ImmutableString("textureProjGradOffset(00Y30B20B20B20D").mangledNameHash());
+    ASSERT_EQ(0x00000482u, ImmutableString("textureProjGradOffset(00d30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x00000483u, ImmutableString("textureProjGradOffset(00g10B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000484u, ImmutableString("textureProjGradOffset(00o10B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000485u, ImmutableString("textureProjGradOffset(00t10B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000486u, ImmutableString("textureProjGradOffset(00g30B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000487u, ImmutableString("textureProjGradOffset(00o30B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000488u, ImmutableString("textureProjGradOffset(00t30B00B00B00D").mangledNameHash());
+    ASSERT_EQ(0x00000489u, ImmutableString("textureProjGradOffset(00O20B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000048au, ImmutableString("textureProjGradOffset(00q20B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000048bu, ImmutableString("textureProjGradOffset(00v20B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000048cu, ImmutableString("textureProjGradOffset(00O30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000048du, ImmutableString("textureProjGradOffset(00q30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000048eu, ImmutableString("textureProjGradOffset(00v30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x0000048fu, ImmutableString("textureProjGradOffset(00n30B10B10B10D").mangledNameHash());
+    ASSERT_EQ(0x00000490u, ImmutableString("textureProjGradOffset(00m30B00B00B00D").mangledNameHash());
     ASSERT_EQ(0x00000491u, ImmutableString("textureOffset(00I10B10D00B").mangledNameHash());
     ASSERT_EQ(0x00000492u, ImmutableString("textureOffset(00R10B10D00B").mangledNameHash());
     ASSERT_EQ(0x00000493u, ImmutableString("textureOffset(00X10B10D00B").mangledNameHash());
@@ -1309,33 +1285,21 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x000004f2u, ImmutableString("textureGatherOffsets(00L20B10Dx4").mangledNameHash());
     ASSERT_EQ(0x000004f3u, ImmutableString("textureGatherOffsets(00U20B10Dx4").mangledNameHash());
     ASSERT_EQ(0x000004f4u, ImmutableString("textureGatherOffsets(00a20B10Dx4").mangledNameHash());
-    ASSERT_EQ(0x000004f5u,
-              ImmutableString("textureGatherOffsets(00d10B00B10Dx4").mangledNameHash());
-    ASSERT_EQ(0x000004f6u,
-              ImmutableString("textureGatherOffsets(00f20B00B10Dx4").mangledNameHash());
+    ASSERT_EQ(0x000004f5u, ImmutableString("textureGatherOffsets(00d10B00B10Dx4").mangledNameHash());
+    ASSERT_EQ(0x000004f6u, ImmutableString("textureGatherOffsets(00f20B00B10Dx4").mangledNameHash());
     ASSERT_EQ(0x000004f7u, ImmutableString("textureGatherOffsets(00O10B10Dx4").mangledNameHash());
     ASSERT_EQ(0x000004f8u, ImmutableString("textureGatherOffsets(00q10B10Dx4").mangledNameHash());
     ASSERT_EQ(0x000004f9u, ImmutableString("textureGatherOffsets(00v10B10Dx4").mangledNameHash());
-    ASSERT_EQ(0x000004fau,
-              ImmutableString("textureGatherOffsets(00n10B00B10Dx4").mangledNameHash());
-    ASSERT_EQ(0x000004fbu,
-              ImmutableString("textureGatherOffsets(00I10B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x000004fcu,
-              ImmutableString("textureGatherOffsets(00R10B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x000004fdu,
-              ImmutableString("textureGatherOffsets(00X10B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x000004feu,
-              ImmutableString("textureGatherOffsets(00L20B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x000004ffu,
-              ImmutableString("textureGatherOffsets(00U20B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x00000500u,
-              ImmutableString("textureGatherOffsets(00a20B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x00000501u,
-              ImmutableString("textureGatherOffsets(00O10B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x00000502u,
-              ImmutableString("textureGatherOffsets(00q10B10Dx400D").mangledNameHash());
-    ASSERT_EQ(0x00000503u,
-              ImmutableString("textureGatherOffsets(00v10B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x000004fau, ImmutableString("textureGatherOffsets(00n10B00B10Dx4").mangledNameHash());
+    ASSERT_EQ(0x000004fbu, ImmutableString("textureGatherOffsets(00I10B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x000004fcu, ImmutableString("textureGatherOffsets(00R10B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x000004fdu, ImmutableString("textureGatherOffsets(00X10B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x000004feu, ImmutableString("textureGatherOffsets(00L20B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x000004ffu, ImmutableString("textureGatherOffsets(00U20B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x00000500u, ImmutableString("textureGatherOffsets(00a20B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x00000501u, ImmutableString("textureGatherOffsets(00O10B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x00000502u, ImmutableString("textureGatherOffsets(00q10B10Dx400D").mangledNameHash());
+    ASSERT_EQ(0x00000503u, ImmutableString("textureGatherOffsets(00v10B10Dx400D").mangledNameHash());
     ASSERT_EQ(0x00000504u, ImmutableString("rgb_2_yuv(20B00H").mangledNameHash());
     ASSERT_EQ(0x00000505u, ImmutableString("yuv_2_rgb(20B00H").mangledNameHash());
     ASSERT_EQ(0x00000506u, ImmutableString("dFdx(00B").mangledNameHash());
@@ -2041,18 +2005,12 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x000007c2u, ImmutableString("imageAtomicCompSwap(01I10D00E00E").mangledNameHash());
     ASSERT_EQ(0x000007c3u, ImmutableString("imageAtomicCompSwap(01T10D00E00E").mangledNameHash());
     ASSERT_EQ(0x000007c4u, ImmutableString("imageAtomicCompSwap(01e10D00E00E").mangledNameHash());
-    ASSERT_EQ(0x000007c5u,
-              ImmutableString("imageAtomicCompSwap(01F10D00D00E00E").mangledNameHash());
-    ASSERT_EQ(0x000007c6u,
-              ImmutableString("imageAtomicCompSwap(01Q10D00D00E00E").mangledNameHash());
-    ASSERT_EQ(0x000007c7u,
-              ImmutableString("imageAtomicCompSwap(01b10D00D00E00E").mangledNameHash());
-    ASSERT_EQ(0x000007c8u,
-              ImmutableString("imageAtomicCompSwap(01G20D00D00E00E").mangledNameHash());
-    ASSERT_EQ(0x000007c9u,
-              ImmutableString("imageAtomicCompSwap(01R20D00D00E00E").mangledNameHash());
-    ASSERT_EQ(0x000007cau,
-              ImmutableString("imageAtomicCompSwap(01c20D00D00E00E").mangledNameHash());
+    ASSERT_EQ(0x000007c5u, ImmutableString("imageAtomicCompSwap(01F10D00D00E00E").mangledNameHash());
+    ASSERT_EQ(0x000007c6u, ImmutableString("imageAtomicCompSwap(01Q10D00D00E00E").mangledNameHash());
+    ASSERT_EQ(0x000007c7u, ImmutableString("imageAtomicCompSwap(01b10D00D00E00E").mangledNameHash());
+    ASSERT_EQ(0x000007c8u, ImmutableString("imageAtomicCompSwap(01G20D00D00E00E").mangledNameHash());
+    ASSERT_EQ(0x000007c9u, ImmutableString("imageAtomicCompSwap(01R20D00D00E00E").mangledNameHash());
+    ASSERT_EQ(0x000007cau, ImmutableString("imageAtomicCompSwap(01c20D00D00E00E").mangledNameHash());
     ASSERT_EQ(0x000007cbu, ImmutableString("imageAtomicCompSwap(00z10D00D00D").mangledNameHash());
     ASSERT_EQ(0x000007ccu, ImmutableString("imageAtomicCompSwap(01K10D00D00D").mangledNameHash());
     ASSERT_EQ(0x000007cdu, ImmutableString("imageAtomicCompSwap(01V10D00D00D").mangledNameHash());
@@ -2080,18 +2038,12 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x000007e3u, ImmutableString("imageAtomicCompSwap(01I10D00D00D").mangledNameHash());
     ASSERT_EQ(0x000007e4u, ImmutableString("imageAtomicCompSwap(01T10D00D00D").mangledNameHash());
     ASSERT_EQ(0x000007e5u, ImmutableString("imageAtomicCompSwap(01e10D00D00D").mangledNameHash());
-    ASSERT_EQ(0x000007e6u,
-              ImmutableString("imageAtomicCompSwap(01F10D00D00D00D").mangledNameHash());
-    ASSERT_EQ(0x000007e7u,
-              ImmutableString("imageAtomicCompSwap(01Q10D00D00D00D").mangledNameHash());
-    ASSERT_EQ(0x000007e8u,
-              ImmutableString("imageAtomicCompSwap(01b10D00D00D00D").mangledNameHash());
-    ASSERT_EQ(0x000007e9u,
-              ImmutableString("imageAtomicCompSwap(01G20D00D00D00D").mangledNameHash());
-    ASSERT_EQ(0x000007eau,
-              ImmutableString("imageAtomicCompSwap(01R20D00D00D00D").mangledNameHash());
-    ASSERT_EQ(0x000007ebu,
-              ImmutableString("imageAtomicCompSwap(01c20D00D00D00D").mangledNameHash());
+    ASSERT_EQ(0x000007e6u, ImmutableString("imageAtomicCompSwap(01F10D00D00D00D").mangledNameHash());
+    ASSERT_EQ(0x000007e7u, ImmutableString("imageAtomicCompSwap(01Q10D00D00D00D").mangledNameHash());
+    ASSERT_EQ(0x000007e8u, ImmutableString("imageAtomicCompSwap(01b10D00D00D00D").mangledNameHash());
+    ASSERT_EQ(0x000007e9u, ImmutableString("imageAtomicCompSwap(01G20D00D00D00D").mangledNameHash());
+    ASSERT_EQ(0x000007eau, ImmutableString("imageAtomicCompSwap(01R20D00D00D00D").mangledNameHash());
+    ASSERT_EQ(0x000007ebu, ImmutableString("imageAtomicCompSwap(01c20D00D00D00D").mangledNameHash());
     ASSERT_EQ(0x000007ecu, ImmutableString("pixelLocalLoadANGLE(01g").mangledNameHash());
     ASSERT_EQ(0x000007edu, ImmutableString("pixelLocalLoadANGLE(01h").mangledNameHash());
     ASSERT_EQ(0x000007eeu, ImmutableString("pixelLocalLoadANGLE(01i").mangledNameHash());
@@ -2170,8 +2122,7 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x00000837u, ImmutableString("gl_MaxFragmentImageUniforms").mangledNameHash());
     ASSERT_EQ(0x00000838u, ImmutableString("gl_MaxComputeImageUniforms").mangledNameHash());
     ASSERT_EQ(0x00000839u, ImmutableString("gl_MaxCombinedImageUniforms").mangledNameHash());
-    ASSERT_EQ(0x0000083au,
-              ImmutableString("gl_MaxCombinedShaderOutputResources").mangledNameHash());
+    ASSERT_EQ(0x0000083au, ImmutableString("gl_MaxCombinedShaderOutputResources").mangledNameHash());
     ASSERT_EQ(0x0000083bu, ImmutableString("gl_MaxComputeWorkGroupCount").mangledNameHash());
     ASSERT_EQ(0x0000083cu, ImmutableString("gl_MaxComputeWorkGroupSize").mangledNameHash());
     ASSERT_EQ(0x0000083du, ImmutableString("gl_MaxComputeUniformComponents").mangledNameHash());
@@ -2191,8 +2142,7 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x0000084bu, ImmutableString("gl_MaxGeometryImageUniforms").mangledNameHash());
     ASSERT_EQ(0x0000084cu, ImmutableString("gl_MaxGeometryTextureImageUnits").mangledNameHash());
     ASSERT_EQ(0x0000084du, ImmutableString("gl_MaxGeometryOutputVertices").mangledNameHash());
-    ASSERT_EQ(0x0000084eu,
-              ImmutableString("gl_MaxGeometryTotalOutputComponents").mangledNameHash());
+    ASSERT_EQ(0x0000084eu, ImmutableString("gl_MaxGeometryTotalOutputComponents").mangledNameHash());
     ASSERT_EQ(0x0000084fu, ImmutableString("gl_MaxGeometryUniformComponents").mangledNameHash());
     ASSERT_EQ(0x00000850u, ImmutableString("gl_MaxGeometryAtomicCounters").mangledNameHash());
     ASSERT_EQ(0x00000851u, ImmutableString("gl_MaxGeometryAtomicCounterBuffers").mangledNameHash());
@@ -2200,27 +2150,20 @@ TEST(ImmutableStringTest, ScriptGeneratedHashesMatch)
     ASSERT_EQ(0x00000853u, ImmutableString("gl_MaxTessControlOutputComponents").mangledNameHash());
     ASSERT_EQ(0x00000854u, ImmutableString("gl_MaxTessControlTextureImageUnits").mangledNameHash());
     ASSERT_EQ(0x00000855u, ImmutableString("gl_MaxTessControlUniformComponents").mangledNameHash());
-    ASSERT_EQ(0x00000856u,
-              ImmutableString("gl_MaxTessControlTotalOutputComponents").mangledNameHash());
+    ASSERT_EQ(0x00000856u, ImmutableString("gl_MaxTessControlTotalOutputComponents").mangledNameHash());
     ASSERT_EQ(0x00000857u, ImmutableString("gl_MaxTessControlImageUniforms").mangledNameHash());
     ASSERT_EQ(0x00000858u, ImmutableString("gl_MaxTessControlAtomicCounters").mangledNameHash());
-    ASSERT_EQ(0x00000859u,
-              ImmutableString("gl_MaxTessControlAtomicCounterBuffers").mangledNameHash());
+    ASSERT_EQ(0x00000859u, ImmutableString("gl_MaxTessControlAtomicCounterBuffers").mangledNameHash());
     ASSERT_EQ(0x0000085au, ImmutableString("gl_MaxTessPatchComponents").mangledNameHash());
     ASSERT_EQ(0x0000085bu, ImmutableString("gl_MaxPatchVertices").mangledNameHash());
     ASSERT_EQ(0x0000085cu, ImmutableString("gl_MaxTessGenLevel").mangledNameHash());
-    ASSERT_EQ(0x0000085du,
-              ImmutableString("gl_MaxTessEvaluationInputComponents").mangledNameHash());
-    ASSERT_EQ(0x0000085eu,
-              ImmutableString("gl_MaxTessEvaluationOutputComponents").mangledNameHash());
-    ASSERT_EQ(0x0000085fu,
-              ImmutableString("gl_MaxTessEvaluationTextureImageUnits").mangledNameHash());
-    ASSERT_EQ(0x00000860u,
-              ImmutableString("gl_MaxTessEvaluationUniformComponents").mangledNameHash());
+    ASSERT_EQ(0x0000085du, ImmutableString("gl_MaxTessEvaluationInputComponents").mangledNameHash());
+    ASSERT_EQ(0x0000085eu, ImmutableString("gl_MaxTessEvaluationOutputComponents").mangledNameHash());
+    ASSERT_EQ(0x0000085fu, ImmutableString("gl_MaxTessEvaluationTextureImageUnits").mangledNameHash());
+    ASSERT_EQ(0x00000860u, ImmutableString("gl_MaxTessEvaluationUniformComponents").mangledNameHash());
     ASSERT_EQ(0x00000861u, ImmutableString("gl_MaxTessEvaluationImageUniforms").mangledNameHash());
     ASSERT_EQ(0x00000862u, ImmutableString("gl_MaxTessEvaluationAtomicCounters").mangledNameHash());
-    ASSERT_EQ(0x00000863u,
-              ImmutableString("gl_MaxTessEvaluationAtomicCounterBuffers").mangledNameHash());
+    ASSERT_EQ(0x00000863u, ImmutableString("gl_MaxTessEvaluationAtomicCounterBuffers").mangledNameHash());
     ASSERT_EQ(0x00000864u, ImmutableString("gl_MaxSamples").mangledNameHash());
     ASSERT_EQ(0x00000865u, ImmutableString("gl_MaxClipDistances").mangledNameHash());
     ASSERT_EQ(0x00000866u, ImmutableString("gl_MaxCullDistances").mangledNameHash());

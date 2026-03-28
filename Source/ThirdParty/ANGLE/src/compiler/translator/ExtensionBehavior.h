@@ -24,6 +24,7 @@ enum class TExtension : uint8_t
     ANGLE_clip_cull_distance,
     ANGLE_multi_draw,
     ANGLE_shader_pixel_local_storage,
+    ANGLE_texture_buffer,
     ANGLE_texture_multisample,
     APPLE_clip_distance,
     ARB_fragment_shader_interlock,

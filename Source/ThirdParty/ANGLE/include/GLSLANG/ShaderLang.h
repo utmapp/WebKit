@@ -518,6 +518,7 @@ struct ShBuiltInResources
     int EXT_tessellation_shader;
     int OES_texture_buffer;
     int EXT_texture_buffer;
+    int ANGLE_texture_buffer;
     int OES_sample_variables;
     int EXT_clip_cull_distance;
     int ANGLE_clip_cull_distance;

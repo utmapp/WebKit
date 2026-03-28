@@ -71,7 +71,10 @@ struct Extensions
     }
     bool shaderIoBlocksAny() const { return (shaderIoBlocksEXT || shaderIoBlocksOES); }
     bool textureBorderClampAny() const { return (textureBorderClampEXT || textureBorderClampOES); }
-    bool textureBufferAny() const { return (textureBufferEXT || textureBufferOES); }
+    bool textureBufferAny() const
+    {
+        return (textureBufferEXT || textureBufferOES || textureBufferANGLE);
+    }
     bool textureCubeMapArrayAny() const
     {
         return (textureCubeMapArrayEXT || textureCubeMapArrayOES);
@@ -739,6 +742,9 @@ struct Extensions
 
     // GL_ANGLE_texture_external_update
     bool textureExternalUpdateANGLE = false;
+
+    // GL_ANGLE_texture_buffer
+    bool textureBufferANGLE = false;
 
     // GL_ANGLE_texture_multisample
     bool textureMultisampleANGLE = false;

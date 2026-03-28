@@ -4404,6 +4404,79 @@ void GL_APIENTRY GL_GetFramebufferPixelLocalStorageParameterivRobustANGLE(GLint 
 
 // GL_ANGLE_stencil_texturing
 
+// GL_ANGLE_texture_buffer
+void GL_APIENTRY GL_TexBufferANGLE(GLenum target, GLenum internalformat, GLuint buffer)
+{
+    Context *context = GetValidGlobalContext();
+    EVENT(context, GLTexBufferANGLE, "context = %d, target = %s, internalformat = %s, buffer = %u",
+          CID(context), GLenumToString(GLESEnum::TextureTarget, target),
+          GLenumToString(GLESEnum::SizedInternalFormat, internalformat), buffer);
+
+    if (context)
+    {
+        TextureType targetPacked = PackParam<TextureType>(target);
+        BufferID bufferPacked    = PackParam<BufferID>(buffer);
+        SCOPED_SHARE_CONTEXT_LOCK(context);
+        bool isCallValid =
+            (context->skipValidation() ||
+             (ValidatePixelLocalStorageInactive(context->getPrivateState(),
+                                                context->getMutableErrorSetForValidation(),
+                                                angle::EntryPoint::GLTexBufferANGLE) &&
+              ValidateTexBufferANGLE(context, angle::EntryPoint::GLTexBufferANGLE, targetPacked,
+                                    internalformat, bufferPacked)));
+        if (isCallValid)
+        {
+            context->texBuffer(targetPacked, internalformat, bufferPacked);
+        }
+        ANGLE_CAPTURE_GL(TexBufferANGLE, isCallValid, context, targetPacked, internalformat,
+                         bufferPacked);
+    }
+    else
+    {
+        GenerateContextLostErrorOnCurrentGlobalContext();
+    }
+    ASSERT(!egl::Display::GetCurrentThreadUnlockedTailCall()->any());
+}
+
+void GL_APIENTRY GL_TexBufferRangeANGLE(GLenum target,
+                                        GLenum internalformat,
+                                        GLuint buffer,
+                                        GLintptr offset,
+                                        GLsizeiptr size)
+{
+    Context *context = GetValidGlobalContext();
+    EVENT(context, GLTexBufferRangeANGLE,
+          "context = %d, target = %s, internalformat = %s, buffer = %u, offset = %llu, size = %llu",
+          CID(context), GLenumToString(GLESEnum::TextureTarget, target),
+          GLenumToString(GLESEnum::SizedInternalFormat, internalformat), buffer,
+          static_cast<unsigned long long>(offset), static_cast<unsigned long long>(size));
+
+    if (context)
+    {
+        TextureType targetPacked = PackParam<TextureType>(target);
+        BufferID bufferPacked    = PackParam<BufferID>(buffer);
+        SCOPED_SHARE_CONTEXT_LOCK(context);
+        bool isCallValid =
+            (context->skipValidation() ||
+             (ValidatePixelLocalStorageInactive(context->getPrivateState(),
+                                                context->getMutableErrorSetForValidation(),
+                                                angle::EntryPoint::GLTexBufferRangeANGLE) &&
+              ValidateTexBufferRangeANGLE(context, angle::EntryPoint::GLTexBufferRangeANGLE,
+                                          targetPacked, internalformat, bufferPacked, offset, size)));
+        if (isCallValid)
+        {
+            context->texBufferRange(targetPacked, internalformat, bufferPacked, offset, size);
+        }
+        ANGLE_CAPTURE_GL(TexBufferRangeANGLE, isCallValid, context, targetPacked, internalformat,
+                         bufferPacked, offset, size);
+    }
+    else
+    {
+        GenerateContextLostErrorOnCurrentGlobalContext();
+    }
+    ASSERT(!egl::Display::GetCurrentThreadUnlockedTailCall()->any());
+}
+
 // GL_ANGLE_texture_compression_dxt3
 
 // GL_ANGLE_texture_compression_dxt5

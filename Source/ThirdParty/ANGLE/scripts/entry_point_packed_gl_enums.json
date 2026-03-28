@@ -1538,6 +1538,14 @@
     "glTestFenceNV": {
         "fence": "FenceNVID"
     },
+    "glTexBufferANGLE": {
+        "buffer": "BufferID",
+        "target": "TextureType"
+    },
+    "glTexBufferRangeANGLE": {
+        "buffer": "BufferID",
+        "target": "TextureType"
+    },
     "glTexBuffer": {
         "buffer": "BufferID",
         "target": "TextureType"

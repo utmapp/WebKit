@@ -1150,7 +1150,8 @@ type_specifier_nonarray
         $$.initialize(EbtSamplerCubeArray, @1);
     }
     | SAMPLERBUFFER {
-        constexpr std::array<TExtension, 2u> extensions{ { TExtension::OES_texture_buffer,
+        constexpr std::array<TExtension, 3u> extensions{ { TExtension::ANGLE_texture_buffer,
+                                                           TExtension::OES_texture_buffer,
                                                            TExtension::EXT_texture_buffer } };
         if (context->getShaderVersion() < 320
         && !context->checkCanUseOneOfExtensions(@1, extensions))
@@ -1194,7 +1195,8 @@ type_specifier_nonarray
         $$.initialize(EbtISamplerCubeArray, @1);
     }
     | ISAMPLERBUFFER {
-        constexpr std::array<TExtension, 2u> extensions{ { TExtension::OES_texture_buffer,
+        constexpr std::array<TExtension, 3u> extensions{ { TExtension::ANGLE_texture_buffer,
+                                                           TExtension::OES_texture_buffer,
                                                            TExtension::EXT_texture_buffer } };
         if (context->getShaderVersion() < 320
         && !context->checkCanUseOneOfExtensions(@1, extensions))
@@ -1238,7 +1240,8 @@ type_specifier_nonarray
         $$.initialize(EbtUSamplerCubeArray, @1);
     }
     | USAMPLERBUFFER {
-        constexpr std::array<TExtension, 2u> extensions{ { TExtension::OES_texture_buffer,
+        constexpr std::array<TExtension, 3u> extensions{ { TExtension::ANGLE_texture_buffer,
+                                                           TExtension::OES_texture_buffer,
                                                            TExtension::EXT_texture_buffer } };
         if (context->getShaderVersion() < 320
         && !context->checkCanUseOneOfExtensions(@1, extensions))

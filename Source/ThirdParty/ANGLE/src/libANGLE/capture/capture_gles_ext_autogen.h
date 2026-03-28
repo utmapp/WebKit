@@ -927,6 +927,20 @@ angle::CallCapture CaptureGetFramebufferPixelLocalStorageParameterivRobustANGLE(
 
 // GL_ANGLE_stencil_texturing
 
+// GL_ANGLE_texture_buffer
+angle::CallCapture CaptureTexBufferANGLE(const State &glState,
+                                         bool isCallValid,
+                                         TextureType targetPacked,
+                                         GLenum internalformat,
+                                         BufferID bufferPacked);
+angle::CallCapture CaptureTexBufferRangeANGLE(const State &glState,
+                                              bool isCallValid,
+                                              TextureType targetPacked,
+                                              GLenum internalformat,
+                                              BufferID bufferPacked,
+                                              GLintptr offset,
+                                              GLsizeiptr size);
+
 // GL_ANGLE_texture_compression_dxt3
 
 // GL_ANGLE_texture_compression_dxt5

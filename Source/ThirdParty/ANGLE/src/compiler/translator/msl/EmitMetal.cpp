@@ -997,16 +997,34 @@ void GenMetalTraverser::emitBareTypeName(const TType &type, const EmitTypeConfig
             }
             else if (IsImage(basicType))
             {
-                mOut << "metal::texture2d<";
                 switch (type.getBasicType())
                 {
                     case EbtImage2D:
+                    case EbtIImage2D:
+                    case EbtUImage2D:
+                        mOut << "metal::texture2d<";
+                        break;
+                    case EbtImageBuffer:
+                    case EbtIImageBuffer:
+                    case EbtUImageBuffer:
+                        mOut << "metal::texture_buffer<";
+                        break;
+                    default:
+                        UNIMPLEMENTED();
+                        break;
+                }
+                switch (type.getBasicType())
+                {
+                    case EbtImage2D:
+                    case EbtImageBuffer:
                         mOut << "float";
                         break;
                     case EbtIImage2D:
+                    case EbtIImageBuffer:
                         mOut << "int";
                         break;
                     case EbtUImage2D:
+                    case EbtUImageBuffer:
                         mOut << "uint";
                         break;
                     default:
@@ -2104,6 +2122,15 @@ void GenMetalTraverser::emitFunctionParameter(const TFunction &func, const TVari
             const std::string originalName = reflection->getOriginalName(param.uniqueId().get());
             reflection->addTextureBinding(originalName, mMainTextureIndex);
             mMainTextureIndex += type.getArraySizeProduct();
+
+            if (IsSamplerBuffer(type.getBasicType()))
+            {
+                // Buffer textures have no sampler parameter, but the binding
+                // lookup in GetAssignedSamplerBindings iterates over sampler
+                // bindings. Register a dummy sampler binding so the texture
+                // binding is found during the lookup.
+                reflection->addSamplerBinding(originalName, mMainSamplerIndex);
+            }
         }
         else if (Name(param) == Pipeline{Pipeline::Type::InstanceId, nullptr}.getStructInstanceName(
                                     Pipeline::Variant::Modified))

@@ -1189,7 +1189,8 @@ angle::Result ProgramExecutableMtl::updateTextures(const gl::Context *glContext,
                         samplerState->getCompareMode(), samplerState->getCompareFunc());
                 }
                 ANGLE_TRY(textureMtl->bindToShader(glContext, cmdEncoder, shaderType, sampler,
-                                                   textureSlot, samplerSlot));
+                                                   textureSlot, samplerSlot,
+                                                   samplerBinding.format));
             }  // for array elements
         }      // for sampler bindings
 

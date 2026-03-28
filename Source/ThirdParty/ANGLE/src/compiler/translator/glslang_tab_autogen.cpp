@@ -3768,8 +3768,8 @@ yyreduce:
 
         case 204: /* type_specifier_nonarray: SAMPLERBUFFER  */
         {
-            constexpr std::array<TExtension, 2u> extensions{
-                {TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer}};
+            constexpr std::array<TExtension, 3u> extensions{
+                {TExtension::ANGLE_texture_buffer, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer}};
             if (context->getShaderVersion() < 320 &&
                 !context->checkCanUseOneOfExtensions((yylsp[0]), extensions))
             {
@@ -3839,8 +3839,8 @@ yyreduce:
 
         case 213: /* type_specifier_nonarray: ISAMPLERBUFFER  */
         {
-            constexpr std::array<TExtension, 2u> extensions{
-                {TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer}};
+            constexpr std::array<TExtension, 3u> extensions{
+                {TExtension::ANGLE_texture_buffer, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer}};
             if (context->getShaderVersion() < 320 &&
                 !context->checkCanUseOneOfExtensions((yylsp[0]), extensions))
             {
@@ -3910,8 +3910,8 @@ yyreduce:
 
         case 222: /* type_specifier_nonarray: USAMPLERBUFFER  */
         {
-            constexpr std::array<TExtension, 2u> extensions{
-                {TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer}};
+            constexpr std::array<TExtension, 3u> extensions{
+                {TExtension::ANGLE_texture_buffer, TExtension::OES_texture_buffer, TExtension::EXT_texture_buffer}};
             if (context->getShaderVersion() < 320 &&
                 !context->checkCanUseOneOfExtensions((yylsp[0]), extensions))
             {

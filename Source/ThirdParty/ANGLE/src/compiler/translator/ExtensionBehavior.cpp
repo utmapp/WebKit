@@ -23,6 +23,7 @@
     OP(ANGLE_clip_cull_distance,                       300, 320) \
     OP(ANGLE_multi_draw,                               100, 320) \
     OP(ANGLE_shader_pixel_local_storage,               300, 320) \
+    OP(ANGLE_texture_buffer,                           300, 320) \
     OP(ANGLE_texture_multisample,                      300, 320) \
     OP(APPLE_clip_distance,                            100, 320) \
     OP(ARB_texture_rectangle,                          100, 320) \

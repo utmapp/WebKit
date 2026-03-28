@@ -405,6 +405,27 @@ GL_APICALL void GL_APIENTRY glGetQueryObjectui64vRobustANGLE(GLuint id, GLenum p
 #define GL_PROGRAM_CACHE_ENABLED_ANGLE 0x93AC
 #endif  /* GL_ANGLE_program_cache_control */
 
+#ifndef GL_ANGLE_texture_buffer
+#define GL_ANGLE_texture_buffer 1
+#define GL_TEXTURE_BUFFER_ANGLE 0x8C2A
+#define GL_TEXTURE_BUFFER_BINDING_ANGLE 0x8C2A
+#define GL_MAX_TEXTURE_BUFFER_SIZE_ANGLE 0x8C2B
+#define GL_TEXTURE_BINDING_BUFFER_ANGLE 0x8C2C
+#define GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT_ANGLE 0x919F
+#define GL_SAMPLER_BUFFER_ANGLE 0x8DC2
+#define GL_INT_SAMPLER_BUFFER_ANGLE 0x8DD0
+#define GL_UNSIGNED_INT_SAMPLER_BUFFER_ANGLE 0x8DD8
+#define GL_TEXTURE_BUFFER_DATA_STORE_BINDING_ANGLE 0x8C2D
+#define GL_TEXTURE_BUFFER_OFFSET_ANGLE 0x919D
+#define GL_TEXTURE_BUFFER_SIZE_ANGLE 0x919E
+typedef void (GL_APIENTRYP PFNGLTEXBUFFERANGLEPROC) (GLenum target, GLenum internalformat, GLuint buffer);
+typedef void (GL_APIENTRYP PFNGLTEXBUFFERRANGEANGLEPROC) (GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size);
+#ifdef GL_GLEXT_PROTOTYPES
+GL_APICALL void GL_APIENTRY glTexBufferANGLE (GLenum target, GLenum internalformat, GLuint buffer);
+GL_APICALL void GL_APIENTRY glTexBufferRangeANGLE (GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size);
+#endif
+#endif /* GL_ANGLE_texture_buffer */
+
 #ifndef GL_ANGLE_texture_rectangle
 #define GL_ANGLE_texture_rectangle 1
 #define GL_MAX_RECTANGLE_TEXTURE_SIZE_ANGLE 0x84F8

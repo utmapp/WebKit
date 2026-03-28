@@ -1,0 +1,531 @@
+Name
+
+    ANGLE_texture_buffer
+
+Name Strings
+
+    GL_ANGLE_texture_buffer
+
+Contributors
+
+    Based on GL_EXT_texture_buffer by:
+    Jon Leech (oddhack 'at' sonic.net)
+    Daniel Koch, NVIDIA (dkoch 'at' nvidia.com)
+    Pat Brown, NVIDIA
+    James Helferty, NVIDIA
+
+Notice
+
+    Copyright (c) 2008-2013 The Khronos Group Inc. Copyright terms at
+        http://www.khronos.org/registry/speccopyright.html
+
+    Portions Copyright (c) 2013-2014 NVIDIA Corporation.
+    Portions Copyright (c) 2025 Apple Inc.
+
+Status
+
+    Complete.
+
+Version
+
+    Last Modified Date: March 28, 2026
+    Revision: 1
+
+Dependencies
+
+    OpenGL ES 3.0 and OpenGL ES Shading Language 3.00 are required.
+
+    This specification is written against the OpenGL ES 3.0.6 and
+    OpenGL ES 3.00 Shading Language Specifications.
+
+    This extension interacts with GL_ANGLE_get_tex_level_parameter.
+
+    This extension is a subset of GL_EXT_texture_buffer, adapted to
+    work with OpenGL ES 3.0 instead of OpenGL ES 3.1.
+
+Overview
+
+    This extension provides a new texture type, called a buffer texture.
+    Buffer textures are one-dimensional arrays of texels whose storage comes
+    from an attached buffer object. When a buffer object is bound to a
+    buffer texture, a format is specified, and the data in the buffer object
+    is treated as an array of texels of the specified format.
+
+    The use of a buffer object to provide storage allows the texture data to
+    be specified in a number of different ways: via buffer object loads
+    (BufferData), direct CPU writes (MapBufferRange), or framebuffer
+    readbacks to pixel buffer objects (ReadPixels). Several of these
+    mechanisms do not require an extra data copy, which would be required
+    when using conventional TexImage-like entry points.
+
+    Buffer textures do not support mipmapping, texture lookups with
+    normalized floating-point texture coordinates, and texture filtering of
+    any sort. They can be accessed via single texel fetch operations in
+    programmable shaders, using a new sampler type and texel fetch function.
+
+    Buffer textures are treated as (potentially large) one-dimensional
+    textures; the maximum texture size supported for buffer textures in the
+    initial implementation of this extension is 2^27 texels (note that this
+    extension only guarantees support for buffer textures with 2^16 texels,
+    but we expect most implementations to exceed that substantially). When a
+    buffer object is attached to a buffer texture, a size is not specified;
+    rather, the number of texels in the texture is taken by dividing the size
+    of the buffer object by the size of each texel.
+
+    This extension also allows a sub-range of the buffer's data store to
+    be attached to a texture. This can be used, for example, to allow
+    multiple buffer textures to be backed by independent sub-ranges of the
+    same buffer object, or for different sub-ranges of a single buffer
+    object to be used for different purposes.
+
+    Unlike GL_EXT_texture_buffer, this extension does not require OpenGL ES
+    3.1 and does not include image load/store support for buffer textures
+    (imageBuffer types), as image load/store is a feature of OpenGL ES 3.1
+    that is not available in OpenGL ES 3.0. Applications that need image
+    load/store on buffer textures should use GL_EXT_texture_buffer on an
+    OpenGL ES 3.1 context instead.
+
+    This extension is designed to be a drop-in replacement for
+    GL_EXT_texture_buffer for applications that only use buffer textures
+    through sampler access (texelFetch/textureSize) and do not require
+    image load/store. The token values are identical to GL_EXT_texture_buffer
+    for binary compatibility.
+
+Differences from GL_EXT_texture_buffer
+
+    This extension is a strict subset of GL_EXT_texture_buffer with the
+    following differences:
+
+    1. Requires OpenGL ES 3.0 instead of OpenGL ES 3.1.
+
+    2. Does not include image buffer types (imageBuffer, iimageBuffer,
+       uimageBuffer) or their associated tokens (IMAGE_BUFFER_ANGLE,
+       INT_IMAGE_BUFFER_ANGLE, UNSIGNED_INT_IMAGE_BUFFER_ANGLE).
+
+    3. Does not include image load/store functions for buffer textures
+       (imageSize, imageLoad, imageStore on gimageBuffer).
+
+    4. Does not modify section 7.11 "Shader Memory Access" or the
+       TEXTURE_FETCH_BARRIER_BIT description.
+
+    5. Does not modify section 8.22 "Texture Image Loads and Stores" or
+       the BindImageTexture error conditions.
+
+    6. State queries for buffer texture properties
+       (TEXTURE_BUFFER_DATA_STORE_BINDING_ANGLE,
+       TEXTURE_BUFFER_OFFSET_ANGLE, TEXTURE_BUFFER_SIZE_ANGLE) are
+       available through GetTexLevelParameter when
+       GL_ANGLE_get_tex_level_parameter is also supported, which provides
+       GetTexLevelParameterivANGLE and GetTexLevelParameterfvANGLE entry
+       points for OpenGL ES 3.0 contexts.
+
+New Procedures and Functions
+
+    void TexBufferANGLE(enum target, enum internalformat, uint buffer);
+
+    void TexBufferRangeANGLE(enum target, enum internalformat, uint buffer,
+                             intptr offset, sizeiptr size);
+
+New Tokens
+
+    Accepted by the <target> parameter of BindBuffer, BufferData,
+    BufferSubData, MapBufferRange, BindTexture, UnmapBuffer,
+    GetBufferParameteriv, GetBufferPointerv, TexBufferANGLE, and
+    TexBufferRangeANGLE:
+
+        TEXTURE_BUFFER_ANGLE                            0x8C2A
+
+    Accepted by the <pname> parameters of GetBooleanv, GetFloatv, and
+    GetIntegerv:
+
+        TEXTURE_BUFFER_BINDING_ANGLE                    0x8C2A
+            (note that this token name is an alias for TEXTURE_BUFFER_ANGLE,
+            and is used for naming consistency with queries for the buffers
+            bound to other buffer binding points).
+        MAX_TEXTURE_BUFFER_SIZE_ANGLE                   0x8C2B
+        TEXTURE_BINDING_BUFFER_ANGLE                    0x8C2C
+        TEXTURE_BUFFER_OFFSET_ALIGNMENT_ANGLE           0x919F
+
+    Returned in the <type> parameter of GetActiveUniform, the <params>
+    parameter of GetActiveUniformsiv, and the <params> parameter of
+    GetProgramResourceiv when the TYPE property is queried on the
+    UNIFORM interface:
+
+        SAMPLER_BUFFER_ANGLE                            0x8DC2
+        INT_SAMPLER_BUFFER_ANGLE                        0x8DD0
+        UNSIGNED_INT_SAMPLER_BUFFER_ANGLE               0x8DD8
+
+    Accepted by the <pname> parameter of GetTexLevelParameterivANGLE
+    (when GL_ANGLE_get_tex_level_parameter is supported):
+
+        TEXTURE_BUFFER_DATA_STORE_BINDING_ANGLE         0x8C2D
+        TEXTURE_BUFFER_OFFSET_ANGLE                     0x919D
+        TEXTURE_BUFFER_SIZE_ANGLE                       0x919E
+
+Additions to the OpenGL ES 3.0 Specification
+
+    Modify section 2.10 "Buffer Objects"
+
+    Add to table 2.8 "Buffer object binding targets":
+
+        Target Name             Purpose             Described in section(s)
+        ----------------------  ------------------- -----------------------
+        TEXTURE_BUFFER_ANGLE    Texture data buffer 3.8tbo
+
+
+    Modify section 7.3 "Program Objects"
+
+    Add to table 7.3 "OpenGL ES Shading Language type tokens...":
+
+        Type Name Token                         Keyword
+        --------------------------------------- ---------------------------
+        SAMPLER_BUFFER_ANGLE                    samplerBuffer
+        INT_SAMPLER_BUFFER_ANGLE                isamplerBuffer
+        UNSIGNED_INT_SAMPLER_BUFFER_ANGLE       usamplerBuffer
+
+
+    Modify chapter 3 "Textures and Samplers"
+
+    Add to the fourth paragraph of the section, on p. 128:
+
+    ... six faces of the cube. Buffer textures are special one-dimensional
+    textures whose texel arrays are stored in separate buffer objects.
+
+
+    Modify section 3.8.1 "Texture Objects"
+
+    Change the first paragraph of the section:
+
+    ... The default texture object is bound to each of the TEXTURE_2D,
+    TEXTURE_3D, TEXTURE_2D_ARRAY, TEXTURE_CUBE_MAP, and
+    TEXTURE_BUFFER_ANGLE targets ...
+
+    The texture object name space, including the initial two-, and three-
+    dimensional, two-dimensional array, cube map, and buffer texture
+    objects, is shared among all texture units. ...
+
+
+    Add new section 3.8tbo following section 3.8.X:
+
+    3.8tbo Buffer Textures
+
+    In addition to the types of textures described in previous sections, one
+    additional type of texture is supported. A <buffer texture> is a
+    one-dimensional texture, consisting of a one-dimensional texel array.
+    Unlike other texture types, the texel array is not stored as part of the
+    texture. Instead, a buffer object is attached to a buffer texture and
+    the texel array is taken from that buffer object's data store. When the
+    contents of a buffer object's data store are modified, those changes are
+    reflected in the contents of any buffer texture to which the buffer
+    object is attached. Buffer textures do not have multiple image levels;
+    only a single data store is available.
+
+    The command
+
+      void TexBufferRangeANGLE(enum target, enum internalformat, uint buffer,
+                                 intptr offset, sizeiptr size);
+
+    attaches the range of the storage for the buffer object named <buffer>
+    for <size> basic machine units, starting at <offset> (also in basic
+    machine units) to the active buffer texture, and specifies an internal
+    format for the texel array found in the range of the attached buffer
+    object. If <buffer> is zero, then any buffer object attached to the
+    buffer texture is detached, the values <offset> and <size> are ignored
+    and the state for <offset> and <size> for the buffer texture are reset
+    to zero. <target> must be TEXTURE_BUFFER_ANGLE. <internalformat>
+    specifies the storage format and must be one of the sized internal
+    formats found in Table texbo.1.
+
+    Errors
+
+    An INVALID_ENUM error is generated if <target> is not
+    TEXTURE_BUFFER_ANGLE.
+
+    An INVALID_ENUM error is generated if <internalformat> is not one of the
+    sized internal formats found in Table texbo.1.
+
+    An INVALID_OPERATION error is generated if <buffer> is non-zero, but is
+    not the name of an existing buffer object.
+
+    An INVALID_VALUE error is generated if <offset> is negative, if <size>
+    is less than or equal to zero, or if <offset> + <size> is greater than
+    the value of BUFFER_SIZE for the buffer bound to <target>.
+
+    An INVALID_VALUE error is generated if <offset> is not an integer
+    multiple of the value of TEXTURE_BUFFER_OFFSET_ALIGNMENT_ANGLE.
+
+
+    The command
+
+      void TexBufferANGLE(enum target, enum internalformat, uint buffer);
+
+    is equivalent to
+
+      TexBufferRangeANGLE(target, internalformat, buffer, 0, size);
+
+    with <size> set to the value of BUFFER_SIZE for <buffer>.
+
+    When a range of the storage of a buffer object is attached to a buffer
+    texture, the range of the buffer's data store is taken as the texture's
+    texel array. The number of texels in the buffer texture's texel array is
+    given by
+
+      floor(<size> / (<components> * sizeof(<base_type>)),
+
+    where <components> and <base_type> are the element count and base data
+    type for elements, as specified in Table texbo.1.
+
+    The number of texels in the texel array is then clamped to the value of
+    the implementation-dependent limit MAX_TEXTURE_BUFFER_SIZE_ANGLE. When a
+    buffer texture is accessed in a shader, the results of a texel fetch are
+    undefined if the specified texel coordinate is negative, or greater than
+    or equal to the clamped number of texels in the texel array.
+
+    When a buffer texture is accessed in a shader, an integer is provided to
+    indicate the texel coordinate being accessed. If no buffer object is
+    bound to the buffer texture, the results of the texel access are
+    undefined. Otherwise, the attached buffer object's data store is
+    interpreted as an array of elements of the GL data type corresponding to
+    <internalformat>. Each texel consists of one to four elements that are
+    mapped to texture components (R, G, B, and A). Element <m> of the texel
+    numbered <n> is taken from element <n> * <components> + <m> of the
+    attached buffer object's data store. Elements and texels are both
+    numbered starting with zero. For texture formats with signed or unsigned
+    normalized fixed-point components, the extracted values are converted to
+    floating-point values using equations 2.2 or 2.1 respectively. The
+    components of the texture are then converted to an (R,G,B,A) vector
+    according to Table texbo.1, and returned to the shader as a
+    four-component result vector with components of the appropriate data
+    type for the texture's internal format. The base data type, component
+    count, normalized component information, and mapping of data store
+    elements to texture components is specified in Table texbo.1.
+
+                                                       Component
+    Sized Internal Format Base Type  Components  Norm   0 1 2 3
+    --------------------- ---------  ----------  ----  ---------
+    R8                    ubyte      1           Yes    R 0 0 1
+    R16F                  half       1           No     R 0 0 1
+    R32F                  float      1           No     R 0 0 1
+    R8I                   byte       1           No     R 0 0 1
+    R16I                  short      1           No     R 0 0 1
+    R32I                  int        1           No     R 0 0 1
+    R8UI                  ubyte      1           No     R 0 0 1
+    R16UI                 ushort     1           No     R 0 0 1
+    R32UI                 uint       1           No     R 0 0 1
+    RG8                   ubyte      2           Yes    R G 0 1
+    RG16F                 half       2           No     R G 0 1
+    RG32F                 float      2           No     R G 0 1
+    RG8I                  byte       2           No     R G 0 1
+    RG16I                 short      2           No     R G 0 1
+    RG32I                 int        2           No     R G 0 1
+    RG8UI                 ubyte      2           No     R G 0 1
+    RG16UI                ushort     2           No     R G 0 1
+    RG32UI                uint       2           No     R G 0 1
+    RGB32F                float      3           No     R G B 1
+    RGB32I                int        3           No     R G B 1
+    RGB32UI               uint       3           No     R G B 1
+    RGBA8                 ubyte      4           Yes    R G B A
+    RGBA16F               half       4           No     R G B A
+    RGBA32F               float      4           No     R G B A
+    RGBA8I                byte       4           No     R G B A
+    RGBA16I               short      4           No     R G B A
+    RGBA32I               int        4           No     R G B A
+    RGBA8UI               ubyte      4           No     R G B A
+    RGBA16UI              ushort     4           No     R G B A
+    RGBA32UI              uint       4           No     R G B A
+        Table texbo.1, Internal Formats for Buffer Textures.
+
+    In addition to attaching buffer objects to textures, buffer objects can
+    be bound to the buffer object target named TEXTURE_BUFFER_ANGLE, in
+    order to specify, modify, or read the buffer object's data store. The
+    buffer object bound to TEXTURE_BUFFER_ANGLE has no effect on rendering.
+    A buffer object is bound to TEXTURE_BUFFER_ANGLE by calling BindBuffer
+    with <target> set to TEXTURE_BUFFER_ANGLE, as described in section 2.10.
+
+
+    Modify section 3.8.X "Texture State"
+
+    ... Each array has associated with it a width, height (except for buffer
+    textures), and depth ...
+
+    Buffer textures also contain two pointer sized integers containing the
+    offset and range of the buffer object's data store.
+
+
+New State
+
+    Add to table 6.8 "Textures (selector, state per texture unit)"
+
+                                                              Initial
+    Get Value                           Type     Get Command  Value       Description                   Sec.
+    ----------------------------------  -------- -----------  ----------  ----------------------------  -----
+    TEXTURE_BINDING_BUFFER_ANGLE        48* x Z+ GetIntegerv  0           Texture object bound          3.8.1
+                                                                          to TEXTURE_BUFFER_ANGLE
+
+    Add to table 6.10 "Textures (state per texture image)"
+    (queryable via GetTexLevelParameterivANGLE when
+    GL_ANGLE_get_tex_level_parameter is supported)
+
+                                                                        Initial
+    Get Value                               Type  Get Command            Value   Description                 Sec.
+    --------------------------------------- ----- ---------------------- ------- --------------------------- --------
+    TEXTURE_BUFFER_DATA_STORE_BINDING_ANGLE Z+    GetTexLevelParameter*  0       Buffer bound to data store  3.8tbo
+    TEXTURE_BUFFER_OFFSET_ANGLE             n x Z GetTexLevelParameter*  0       Offset into buffer          3.8tbo
+    TEXTURE_BUFFER_SIZE_ANGLE               n x Z GetTexLevelParameter*  0       Size of buffer range        3.8tbo
+
+    Add to table 6.50 "Miscellaneous"
+
+                                                           Initial
+    Get Value                           Type   Get Command Value   Description                 Sec.
+    --------------------------          ----   ----------- ------- --------------------------- ----
+    TEXTURE_BUFFER_BINDING_ANGLE        Z+     GetIntegerv 0       Buffer object bound to      2.10
+                                                                   generic buffer texture
+                                                                   binding point
+
+
+New Implementation Dependent State
+
+    Add to table 6.41 "Implementation Dependent Values (cont.)"
+
+                                                           Minimum
+    Get Value                             Type  Get Command  Value    Description            Sec.
+    ------------------------------------- ----  -----------  -------  ---------------------  --------
+    MAX_TEXTURE_BUFFER_SIZE_ANGLE         Z+    GetIntegerv  65536    No. of addressable     3.8tbo
+                                                                      texels for buffer
+                                                                      textures
+    TEXTURE_BUFFER_OFFSET_ALIGNMENT_ANGLE Z+    GetIntegerv  256 (**) Minimum required       3.8tbo
+                                                                      alignment for texture
+                                                                      buffer offsets
+
+    (**) the value of TEXTURE_BUFFER_OFFSET_ALIGNMENT_ANGLE is the largest
+    allowed value. Smaller values are permitted.
+
+Modifications to the OpenGL ES Shading Language Specification, Version 3.00
+
+    #extension GL_ANGLE_texture_buffer: <behavior>
+
+    The above line is needed to control the GLSL features described in
+    this section.
+
+
+    A new preprocessor #define is added to the OpenGL ES Shading Language:
+
+      #define GL_ANGLE_texture_buffer 1
+
+
+    Add the following keywords to section 3.7 "Keywords" on p. 14 and
+    remove them from the list of reserved keywords on p. 15:
+
+    samplerBuffer
+    isamplerBuffer
+    usamplerBuffer
+
+
+    Add to section 4.1 "Basic Types"
+
+    Add to table "Floating Point Sampler Types (opaque)":
+
+    Type                    Meaning
+    ----------------------  ---------------------------------------
+    samplerBuffer           a handle for accessing a buffer texture
+
+    Add to table "Signed Integer Sampler Types (opaque)":
+
+    Type                    Meaning
+    ----------------------- ----------------------------------------
+    isamplerBuffer          a handle for accessing an integer buffer
+                            texture
+
+    Add to table "Unsigned Integer Sampler Types (opaque)":
+
+    Type                    Meaning
+    ----------------------- ------------------------------------------
+    usamplerBuffer          a handle for accessing an unsigned integer
+                            buffer texture
+
+
+    Modify section 4.7.4 "Default Precision Qualifiers"
+
+    Add the following types to the list of types which have no default
+    precision qualifiers:
+
+    samplerBuffer
+    isamplerBuffer
+    usamplerBuffer
+
+
+    Modify section 8.9 "Texture Functions"
+
+    Add at the end of the paragraph starting "In all functions below":
+
+    ... No <bias> or <lod> parameters for buffer textures are supported,
+    because mipmaps are not allowed for these types of textures.
+
+
+    Add to the table of Texture Query Functions in section 8.9.1:
+
+      highp int textureSize(gsamplerBuffer sampler)
+
+
+    Add to the table of Texel Lookup Functions in section 8.9.2:
+
+      gvec4 texelFetch(gsamplerBuffer sampler, int P)
+
+
+Issues
+
+    (1) What is the relationship between this extension and
+        GL_EXT_texture_buffer?
+
+    RESOLVED: This extension is a strict subset of GL_EXT_texture_buffer.
+    It provides the same buffer texture functionality but requires only
+    OpenGL ES 3.0 instead of 3.1. Image load/store support for buffer
+    textures (imageBuffer types) is excluded because image load/store is
+    an OpenGL ES 3.1 feature.
+
+    Applications that only use buffer textures through samplerBuffer types
+    (texelFetch/textureSize) can use this extension as a drop-in
+    replacement. The token values are identical to GL_EXT_texture_buffer.
+
+    (2) Why are image buffer types not included?
+
+    RESOLVED: Image load/store (imageBuffer, iimageBuffer, uimageBuffer)
+    requires the image framework introduced in OpenGL ES 3.1, including
+    BindImageTexture, memory barriers, and the full shader image variable
+    infrastructure. Including this would effectively require implementing
+    a large portion of OpenGL ES 3.1, which defeats the purpose of
+    supporting buffer textures on OpenGL ES 3.0.
+
+    Applications that need image buffer functionality should use
+    GL_EXT_texture_buffer on an OpenGL ES 3.1 context.
+
+    (3) How can buffer texture state be queried in OpenGL ES 3.0?
+
+    RESOLVED: The global state (MAX_TEXTURE_BUFFER_SIZE_ANGLE,
+    TEXTURE_BUFFER_OFFSET_ALIGNMENT_ANGLE, TEXTURE_BINDING_BUFFER_ANGLE,
+    TEXTURE_BUFFER_BINDING_ANGLE) can be queried via GetIntegerv as usual.
+
+    Per-texture state (TEXTURE_BUFFER_DATA_STORE_BINDING_ANGLE,
+    TEXTURE_BUFFER_OFFSET_ANGLE, TEXTURE_BUFFER_SIZE_ANGLE) requires
+    GetTexLevelParameter, which is not part of OpenGL ES 3.0 core. The
+    GL_ANGLE_get_tex_level_parameter extension provides
+    GetTexLevelParameterivANGLE and GetTexLevelParameterfvANGLE entry
+    points that can be used to query this state. This extension is
+    typically available on the same implementations that support
+    GL_ANGLE_texture_buffer.
+
+    (4) What should the rules on GLSL suffixing be?
+
+    RESOLVED: The new sampler types are reserved keywords in ESSL 3.00
+    so they can be used without prefix/suffixes, following the precedent
+    set by GL_EXT_texture_buffer issue (3).
+
+
+Revision History
+
+    Rev.  Date     Author    Changes
+    ----  -------- --------- ---------------------------------------------
+    1     03/28/26 osy       Initial version, subset of EXT_texture_buffer
+                             adapted for OpenGL ES 3.0. Removed image
+                             load/store, memory barriers, and
+                             BindImageTexture modifications.

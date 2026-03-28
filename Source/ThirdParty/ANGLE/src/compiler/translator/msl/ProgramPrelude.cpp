@@ -261,6 +261,7 @@ class ProgramPrelude : public TIntermTraverser
     void textureSize();
     void imageLoad();
     void imageStore();
+    void imageSize();
     void memoryBarrierImage();
     void interpolateAtCenter();
     void interpolateAtCentroid();
@@ -1324,7 +1325,7 @@ constant bool ANGLEWriteHelperSampleMask    [[function_constant(ANGLE_WRITE_HELP
 
 PROGRAM_PRELUDE_DECLARE(texelFetch,
                         R"(
-#define ANGLE_texelFetch(env, ...) ANGLE_texelFetch_impl(*env.texture, __VA_ARGS__)
+#define ANGLE_texelFetch(env, ...) ANGLE_texelFetch_impl(*env.texture, ##__VA_ARGS__)
 
 template <typename Texture>
 ANGLE_ALWAYS_INLINE auto ANGLE_texelFetch_impl(
@@ -1351,6 +1352,14 @@ ANGLE_ALWAYS_INLINE auto ANGLE_texelFetch_impl(
     uint32_t level)
 {
     return texture.read(uint2(coord.xy), uint32_t(coord.z), level);
+}
+
+template <typename T, metal::access Access>
+ANGLE_ALWAYS_INLINE auto ANGLE_texelFetch_impl(
+    thread metal::texture_buffer<T, Access> &texture,
+    int coord)
+{
+    return texture.read(uint32_t(coord));
 }
 )",
                         textureEnv())
@@ -2875,7 +2884,7 @@ ANGLE_ALWAYS_INLINE auto ANGLE_textureProjOffset_impl(
 
 PROGRAM_PRELUDE_DECLARE(textureSize,
                         R"(
-#define ANGLE_textureSize(env, ...) ANGLE_textureSize_impl(*env.texture, __VA_ARGS__)
+#define ANGLE_textureSize(env, ...) ANGLE_textureSize_impl(*env.texture, ##__VA_ARGS__)
 
 template <typename Texture>
 ANGLE_ALWAYS_INLINE auto ANGLE_textureSize_impl(
@@ -2908,6 +2917,13 @@ ANGLE_ALWAYS_INLINE auto ANGLE_textureSize_impl(
 {
     return int3(texture.get_width(uint32_t(level)), texture.get_height(uint32_t(level)), texture.get_array_size());
 }
+
+template <typename T, metal::access Access>
+ANGLE_ALWAYS_INLINE int ANGLE_textureSize_impl(
+    thread metal::texture_buffer<T, Access> &texture)
+{
+    return int(texture.get_width());
+}
 )",
                         textureEnv())
 
@@ -2919,6 +2935,13 @@ ANGLE_ALWAYS_INLINE auto ANGLE_imageLoad(
 {
     return texture.read(uint2(coord));
 }
+template <typename T, metal::access Access>
+ANGLE_ALWAYS_INLINE auto ANGLE_imageLoad(
+    thread const metal::texture_buffer<T, Access> &texture,
+    int coord)
+{
+    return texture.read(uint(coord));
+}
 )")
 
 PROGRAM_PRELUDE_DECLARE(imageStore, R"(
@@ -2929,6 +2952,23 @@ ANGLE_ALWAYS_INLINE auto ANGLE_imageStore(
     metal::vec<T, 4> value)
 {
     return texture.write(value, uint2(coord));
+}
+template <typename T, metal::access Access>
+ANGLE_ALWAYS_INLINE auto ANGLE_imageStore(
+    thread const metal::texture_buffer<T, Access> &texture,
+    int coord,
+    metal::vec<T, 4> value)
+{
+    return texture.write(value, uint(coord));
+}
+)")
+
+PROGRAM_PRELUDE_DECLARE(imageSize, R"(
+template <typename T, metal::access Access>
+ANGLE_ALWAYS_INLINE int ANGLE_imageSize(
+    thread const metal::texture_buffer<T, Access> &texture)
+{
+    return int(texture.get_width());
 }
 )")
 
@@ -3394,6 +3434,7 @@ ProgramPrelude::FuncToEmitter ProgramPrelude::BuildFuncToEmitter()
     putBuiltIn("textureSize", EMIT_METHOD(textureSize));
     putBuiltIn("imageLoad", EMIT_METHOD(imageLoad));
     putBuiltIn("imageStore", EMIT_METHOD(imageStore));
+    putBuiltIn("imageSize", EMIT_METHOD(imageSize));
     putBuiltIn("memoryBarrierImage", EMIT_METHOD(memoryBarrierImage));
 
     putBuiltIn("interpolateAtCenter", EMIT_METHOD(interpolateAtCenter));

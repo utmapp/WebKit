@@ -111,6 +111,7 @@ Compiler::Compiler(rx::GLImplFactory *implFactory, const State &state, egl::Disp
     // OES_texture_buffer
     mResources.OES_texture_buffer = extensions.textureBufferOES;
     mResources.EXT_texture_buffer = extensions.textureBufferEXT;
+    mResources.ANGLE_texture_buffer = extensions.textureBufferANGLE;
 
     // GL_EXT_YUV_target
     mResources.EXT_YUV_target = extensions.YUVTargetEXT;

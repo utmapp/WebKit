@@ -167,6 +167,7 @@ const ExtensionInfoMap &GetExtensionInfoMap()
         map["GL_OES_texture_3D"] = enableableExtension(&Extensions::texture3DOES);
         map["GL_EXT_texture_border_clamp"] = enableableExtension(&Extensions::textureBorderClampEXT);
         map["GL_OES_texture_border_clamp"] = enableableExtension(&Extensions::textureBorderClampOES);
+        map["GL_ANGLE_texture_buffer"] = enableableExtension(&Extensions::textureBufferANGLE);
         map["GL_EXT_texture_buffer"] = enableableExtension(&Extensions::textureBufferEXT);
         map["GL_OES_texture_buffer"] = enableableExtension(&Extensions::textureBufferOES);
         map["GL_OES_texture_compression_astc"] = enableableExtension(&Extensions::textureCompressionAstcOES);

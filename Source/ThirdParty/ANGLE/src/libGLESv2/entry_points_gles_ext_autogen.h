@@ -687,6 +687,14 @@ GL_GetFramebufferPixelLocalStorageParameterivRobustANGLE(GLint plane,
 
 // GL_ANGLE_stencil_texturing
 
+// GL_ANGLE_texture_buffer
+ANGLE_EXPORT void GL_APIENTRY GL_TexBufferANGLE(GLenum target, GLenum internalformat, GLuint buffer);
+ANGLE_EXPORT void GL_APIENTRY GL_TexBufferRangeANGLE(GLenum target,
+                                                      GLenum internalformat,
+                                                      GLuint buffer,
+                                                      GLintptr offset,
+                                                      GLsizeiptr size);
+
 // GL_ANGLE_texture_compression_dxt3
 
 // GL_ANGLE_texture_compression_dxt5

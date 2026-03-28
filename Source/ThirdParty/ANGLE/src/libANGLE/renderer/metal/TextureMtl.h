@@ -104,6 +104,8 @@ class TextureMtl : public TextureImpl
     angle::Result copyCompressedTexture(const gl::Context *context,
                                         const gl::Texture *source) override;
 
+    angle::Result setBuffer(const gl::Context *context, GLenum internalFormat) override;
+
     angle::Result setStorage(const gl::Context *context,
                              gl::TextureType type,
                              size_t levels,
@@ -163,13 +165,15 @@ class TextureMtl : public TextureImpl
     // the actual texture is created by calling this method to transfer the stored images data
     // to the actual texture.
     angle::Result ensureTextureCreated(const gl::Context *context);
+    angle::Result ensureBufferTextureCreated(const gl::Context *context);
 
     angle::Result bindToShader(const gl::Context *context,
                                mtl::RenderCommandEncoder *cmdEncoder,
                                gl::ShaderType shaderType,
                                gl::Sampler *sampler, /** nullable */
                                int textureSlotIndex,
-                               int samplerSlotIndex);
+                               int samplerSlotIndex,
+                               gl::SamplerFormat samplerFormat);
 
     angle::Result bindToShaderImage(const gl::Context *context,
                                     mtl::RenderCommandEncoder *cmdEncoder,
@@ -357,6 +361,11 @@ class TextureMtl : public TextureImpl
 
     // The swizzled or stencil view used for shader sampling.
     mtl::TextureRef mNativeSwizzleStencilSamplingView;
+
+    // Expanded buffer for formats whose GL pixel size differs from the Metal
+    // pixel size (e.g. RGB32 -> RGBA32). Kept alive so the texture view
+    // created from it remains valid.
+    mtl::BufferRef mBufferTextureExpandedBuffer;
 
     GLuint mCurrentBaseLevel = 0;
     GLuint mCurrentMaxLevel  = 1000;

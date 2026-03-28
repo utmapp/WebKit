@@ -829,6 +829,10 @@ void DisplayMtl::ensureCapsInitialized() const
     mNativeCaps.maxDepthTextureSamples = mNativeCaps.maxSamples;
     mNativeCaps.maxIntegerSamples      = 1;
 
+    // GL_ANGLE_texture_buffer / GL_EXT_texture_buffer caps
+    mNativeCaps.maxTextureBufferSize         = 1 << 27;  // 128M texels
+    mNativeCaps.textureBufferOffsetAlignment = 16;
+
     mNativeCaps.maxVertexAttributes           = mtl::kMaxVertexAttribs;
     mNativeCaps.maxVertexAttribBindings       = mtl::kMaxVertexAttribs;
     mNativeCaps.maxVertexAttribRelativeOffset = std::numeric_limits<GLint>::max();
@@ -1044,6 +1048,11 @@ void DisplayMtl::initializeExtensions() const
     mNativeExtensions.textureNpotOES = true;
 
     mNativeExtensions.texture3DOES = true;
+
+    // GL_ANGLE_texture_buffer / GL_EXT_texture_buffer / GL_OES_texture_buffer
+    mNativeExtensions.textureBufferANGLE = true;
+    mNativeExtensions.textureBufferEXT   = true;
+    mNativeExtensions.textureBufferOES   = true;
 
     mNativeExtensions.sampleVariablesOES = true;
 

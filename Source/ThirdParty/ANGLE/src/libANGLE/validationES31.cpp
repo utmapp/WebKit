@@ -3043,6 +3043,40 @@ bool ValidateTexBufferRangeEXT(const Context *context,
                                       offset, size);
 }
 
+// GL_ANGLE_texture_buffer
+bool ValidateTexBufferANGLE(const Context *context,
+                            angle::EntryPoint entryPoint,
+                            TextureType target,
+                            GLenum internalformat,
+                            BufferID bufferPacked)
+{
+    if (!context->getExtensions().textureBufferANGLE)
+    {
+        ANGLE_VALIDATION_ERROR(GL_INVALID_OPERATION, kTextureBufferExtensionNotAvailable);
+        return false;
+    }
+
+    return ValidateTexBufferBase(context, entryPoint, target, internalformat, bufferPacked);
+}
+
+bool ValidateTexBufferRangeANGLE(const Context *context,
+                                 angle::EntryPoint entryPoint,
+                                 TextureType target,
+                                 GLenum internalformat,
+                                 BufferID bufferPacked,
+                                 GLintptr offset,
+                                 GLsizeiptr size)
+{
+    if (!context->getExtensions().textureBufferANGLE)
+    {
+        ANGLE_VALIDATION_ERROR(GL_INVALID_OPERATION, kTextureBufferExtensionNotAvailable);
+        return false;
+    }
+
+    return ValidateTexBufferRangeBase(context, entryPoint, target, internalformat, bufferPacked,
+                                      offset, size);
+}
+
 bool ValidateTexBufferBase(const Context *context,
                            angle::EntryPoint entryPoint,
                            TextureType target,

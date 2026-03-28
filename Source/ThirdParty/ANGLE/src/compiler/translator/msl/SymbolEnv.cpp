@@ -394,17 +394,27 @@ const TStructure &SymbolEnv::getTextureEnv(TBasicType samplerType)
             new TField(textureType, ImmutableString("texture"), kNoSourceLoc, SymbolType::BuiltIn);
         markAsPointer(*texture, AddressSpace::Thread);
 
-        auto *sampler = new TField(new TType(&getSamplerStruct(), false),
-                                   ImmutableString("sampler"), kNoSourceLoc, SymbolType::BuiltIn);
-        markAsPointer(*sampler, AddressSpace::Thread);
-
         std::string envName;
         envName += "TextureEnv<";
         envName += GetTextureTypeName(samplerType).rawName().data();
         envName += ">";
 
-        env = &newStructure(Name(envName, SymbolType::AngleInternal),
-                            *new TFieldList{texture, sampler});
+        if (IsSamplerBuffer(samplerType))
+        {
+            // Buffer textures don't use samplers — create a 1-field TextureEnv
+            env = &newStructure(Name(envName, SymbolType::AngleInternal),
+                                *new TFieldList{texture});
+        }
+        else
+        {
+            auto *sampler =
+                new TField(new TType(&getSamplerStruct(), false), ImmutableString("sampler"),
+                           kNoSourceLoc, SymbolType::BuiltIn);
+            markAsPointer(*sampler, AddressSpace::Thread);
+
+            env = &newStructure(Name(envName, SymbolType::AngleInternal),
+                                *new TFieldList{texture, sampler});
+        }
     }
     return *env;
 }
@@ -601,11 +611,16 @@ Name sh::GetTextureTypeName(TBasicType samplerType)
             HANDLE_TEXTURE_NAME("texture1d_array");
             break;
 
-        // Buffer textures
+        // Buffer textures — must include access::read since access::sample
+        // (the default for metal textures) is not valid for texture_buffer.
         case EbtSamplerBuffer:
+            name = "metal::texture_buffer<float, metal::access::read>";
+            break;
         case EbtISamplerBuffer:
+            name = "metal::texture_buffer<int, metal::access::read>";
+            break;
         case EbtUSamplerBuffer:
-            HANDLE_TEXTURE_NAME("texture_buffer");
+            name = "metal::texture_buffer<uint32_t, metal::access::read>";
             break;
 
         // 2d textures

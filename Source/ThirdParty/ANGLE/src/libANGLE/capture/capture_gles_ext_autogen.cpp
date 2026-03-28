@@ -5017,6 +5017,42 @@ CallCapture CaptureGetFramebufferPixelLocalStorageParameterivRobustANGLE(const S
                        std::move(paramBuffer));
 }
 
+CallCapture CaptureTexBufferANGLE(const State &glState,
+                                  bool isCallValid,
+                                  TextureType targetPacked,
+                                  GLenum internalformat,
+                                  BufferID bufferPacked)
+{
+    ParamBuffer paramBuffer;
+
+    paramBuffer.addValueParam("targetPacked", ParamType::TTextureType, targetPacked);
+    paramBuffer.addEnumParam("internalformat", GLESEnum::SizedInternalFormat, ParamType::TGLenum,
+                             internalformat);
+    paramBuffer.addValueParam("bufferPacked", ParamType::TBufferID, bufferPacked);
+
+    return CallCapture(angle::EntryPoint::GLTexBufferANGLE, std::move(paramBuffer));
+}
+
+CallCapture CaptureTexBufferRangeANGLE(const State &glState,
+                                       bool isCallValid,
+                                       TextureType targetPacked,
+                                       GLenum internalformat,
+                                       BufferID bufferPacked,
+                                       GLintptr offset,
+                                       GLsizeiptr size)
+{
+    ParamBuffer paramBuffer;
+
+    paramBuffer.addValueParam("targetPacked", ParamType::TTextureType, targetPacked);
+    paramBuffer.addEnumParam("internalformat", GLESEnum::SizedInternalFormat, ParamType::TGLenum,
+                             internalformat);
+    paramBuffer.addValueParam("bufferPacked", ParamType::TBufferID, bufferPacked);
+    paramBuffer.addValueParam("offset", ParamType::TGLintptr, offset);
+    paramBuffer.addValueParam("size", ParamType::TGLsizeiptr, size);
+
+    return CallCapture(angle::EntryPoint::GLTexBufferRangeANGLE, std::move(paramBuffer));
+}
+
 CallCapture CaptureTexImage2DExternalANGLE(const State &glState,
                                            bool isCallValid,
                                            TextureTarget targetPacked,

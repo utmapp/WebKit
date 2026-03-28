@@ -353,6 +353,12 @@ class ContextMtl : public ContextImpl, public mtl::Context
     void present(const gl::Context *context, id<CAMetalDrawable> presentationDrawable);
     angle::Result finishCommandBuffer();
 
+    // Mark a resource as being read by the current command buffer.
+    void setCommandBufferReadDependency(const mtl::ResourceRef &resource)
+    {
+        mCmdBuffer.setReadDependency(resource);
+    }
+
     // Check whether compatible render pass has been started. Compatible render pass is a render
     // pass having the same attachments, and possibly having different load/store options.
     bool hasStartedRenderPass(const mtl::RenderPassDesc &desc);

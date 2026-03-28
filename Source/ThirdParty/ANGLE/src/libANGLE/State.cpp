@@ -2270,7 +2270,7 @@ void State::initialize(Context *context)
     {
         mSamplerTextures[TextureType::CubeMapArray].resize(getCaps().maxCombinedTextureImageUnits);
     }
-    if (clientVersion >= Version(3, 1) || nativeExtensions.textureCubeMapArrayAny())
+    if (clientVersion >= Version(3, 1) || nativeExtensions.textureBufferAny())
     {
         mSamplerTextures[TextureType::Buffer].resize(getCaps().maxCombinedTextureImageUnits);
     }

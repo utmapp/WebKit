@@ -28,6 +28,20 @@ bool ValidateTexBufferRangeBase(const Context *context,
                                 GLintptr offset,
                                 GLsizeiptr size);
 
+// GL_ANGLE_texture_buffer
+bool ValidateTexBufferANGLE(const Context *context,
+                            angle::EntryPoint entryPoint,
+                            TextureType target,
+                            GLenum internalformat,
+                            BufferID bufferPacked);
+bool ValidateTexBufferRangeANGLE(const Context *context,
+                                 angle::EntryPoint entryPoint,
+                                 TextureType target,
+                                 GLenum internalformat,
+                                 BufferID bufferPacked,
+                                 GLintptr offset,
+                                 GLsizeiptr size);
+
 // GL_EXT_multi_draw_indirect
 bool ValidateMultiDrawIndirectBase(const Context *context,
                                    angle::EntryPoint entryPoint,

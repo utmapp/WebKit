@@ -1291,9 +1291,11 @@ const ProcEntry g_procTable[] = {
     {"glStencilOpSeparate", P(GL_StencilOpSeparate)},
     {"glTestFenceNV", P(GL_TestFenceNV)},
     {"glTexBuffer", P(GL_TexBuffer)},
+    {"glTexBufferANGLE", P(GL_TexBufferANGLE)},
     {"glTexBufferEXT", P(GL_TexBufferEXT)},
     {"glTexBufferOES", P(GL_TexBufferOES)},
     {"glTexBufferRange", P(GL_TexBufferRange)},
+    {"glTexBufferRangeANGLE", P(GL_TexBufferRangeANGLE)},
     {"glTexBufferRangeEXT", P(GL_TexBufferRangeEXT)},
     {"glTexBufferRangeOES", P(GL_TexBufferRangeOES)},
     DESKTOP_ONLY("glTexCoord1d", GL_TexCoord1d)

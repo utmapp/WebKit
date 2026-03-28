@@ -476,7 +476,9 @@ class PipelineFunctionEnv
                 for (const TField *field : mPipelineStruct.external->fields())
                 {
                     const TStructure *textureEnv = field->type()->getStruct();
-                    ASSERT(textureEnv && textureEnv->fields().size() == 2);
+                    ASSERT(textureEnv &&
+                           (textureEnv->fields().size() == 1 ||
+                            textureEnv->fields().size() == 2));
                     for (const TField *subfield : textureEnv->fields())
                     {
                         const Name name = mIdGen.createNewName({field->name(), subfield->name()});
@@ -839,19 +841,30 @@ class UpdatePipelineFunctions : private TIntermRebuild
             {
                 const TFieldList &fields = mPipelineStruct.external->fields();
 
-                ASSERT(func.getParamCount() >= mEnv.getFirstParamIdxInMainFn() + 2 * fields.size());
+                // Count expected parameters: 2 per normal texture, 1 per buffer texture
+                size_t expectedParams = 0;
+                for (const TField *f : fields)
+                {
+                    const TStructure *texEnv = f->type()->getStruct();
+                    expectedParams += texEnv ? texEnv->fields().size() : 2;
+                }
+                ASSERT(func.getParamCount() >=
+                       mEnv.getFirstParamIdxInMainFn() + expectedParams);
                 size_t paramIndex = mEnv.getFirstParamIdxInMainFn();
 
                 for (const TField *field : fields)
                 {
+                    const TStructure *texEnv = field->type()->getStruct();
+                    const bool isBufferTexture =
+                        texEnv && texEnv->fields().size() == 1;
+
                     const TVariable &textureParam = *func.getParam(paramIndex++);
-                    const TVariable &samplerParam = *func.getParam(paramIndex++);
+                    const TVariable *samplerParamPtr =
+                        isBufferTexture ? nullptr : func.getParam(paramIndex++);
 
                     auto go = [&](TIntermTyped &env, const int *index) {
                         TIntermTyped &textureField = AccessField(
                             AccessIndex(*env.deepCopy(), index), ImmutableString("texture"));
-                        TIntermTyped &samplerField = AccessField(
-                            AccessIndex(*env.deepCopy(), index), ImmutableString("sampler"));
 
                         auto mkAssign = [&](TIntermTyped &field, const TVariable &param) {
                             return new TIntermBinary(TOperator::EOpAssign, &field,
@@ -862,7 +875,15 @@ class UpdatePipelineFunctions : private TIntermRebuild
                         };
 
                         newBody->appendStatement(mkAssign(textureField, textureParam));
-                        newBody->appendStatement(mkAssign(samplerField, samplerParam));
+
+                        if (!isBufferTexture)
+                        {
+                            TIntermTyped &samplerField = AccessField(
+                                AccessIndex(*env.deepCopy(), index),
+                                ImmutableString("sampler"));
+                            newBody->appendStatement(
+                                mkAssign(samplerField, *samplerParamPtr));
+                        }
                     };
 
                     TIntermTyped &env = AccessField(*mPipelineMainLocalVar.internal, field->name());
